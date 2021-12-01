@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSMiamiPruebas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"
+    integrity="sha512-N4kV7GkNv7QR7RX9YF/olywyIgIwNvfEe2nZtfyj73HdjCUkAfOBDbcuJ/cTaN04JKRnw1YG1wnUyNKMsNgg3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="libraries/p5.play.js"></script>
+    <script src="pj.js"></script>
+</head>
+<body>
+    <script>
+        let pj
+
+        function setup() {
+            createCanvas(800 , 800)
+            pj = new Pj()
+        }
+
+        /*function draw() {
+            background(220)
+
+            if (keyIsDown(65)) {
+                pj.left()
+            }
+
+            if (keyIsDown(68)) {
+                pj.right()
+            }
+
+            if (keyIsDown(87)) {
+                pj.up()
+            }
+            
+            if (keyIsDown(83)) {
+                pj.down()
+            }
+
+            rect(400,400,100,1)
+            rect(400,400,1,100)
+            
+            pj.dibujar(mouseX, mouseY)
+
+        }*/
+
+        function draw() {
+
+            if (keyIsDown(65)) {
+                pj.left()
+            }
+
+            if (keyIsDown(68)) {
+                pj.right()
+            }
+
+            if (keyIsDown(87)) {
+                pj.up()
+            }
+            
+            if (keyIsDown(83)) {
+                pj.down()
+            }
+
+            background(150)
+
+            push()
+            translate(pj.x, pj.y);
+            let a = atan2(mouseY - pj.y , mouseX - pj.x);
+            rotate(a);
+            pj.dibujar()
+            pop()
+
+        }
+
+    </script>
+</body>
+</html>

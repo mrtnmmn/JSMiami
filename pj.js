@@ -2,7 +2,7 @@ class Pj{
 
     constructor(){
         this.v = 6
-        this.img = loadImage('sprites/pjPrueba.png')
+        this.img = loadImage('sprites/mainPj.png')
         // this.img =loadSpriteSheet('sprites/sprPAttackPuºnch_strip7.png', 171, 158, 11)
         this.velX = 0
         this.velY = 0
@@ -29,7 +29,7 @@ class Pj{
     }
 
     dibujar(){
-        image(this.img,-24, -26)
+        image(this.img,-8, -10)
     } 
 
     getX() {

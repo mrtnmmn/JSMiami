@@ -1,10 +1,8 @@
 class Pj{
 
     constructor(){
+        // stats
         this.v = 4
-        this.sprites = [loadImage('sprites/pjM16.png'),
-            loadImage('sprites/pjM16Shot.png'),
-            loadImage('sprites/pjDeath01.png')]
         this.velX = 0
         this.velY = 0
         this.x = 400
@@ -19,6 +17,11 @@ class Pj{
         this.ammo = 30
         this.maxAmmo = 30
         this.lastShot = 0
+
+        // sprites
+        this.sprites = [loadImage('sprites/pjM16.png'),
+            loadImage('sprites/pjM16Shot.png'),
+            loadImage('sprites/pjDeath01.png')]
     }
 
     right(){
@@ -60,7 +63,7 @@ class Pj{
     } 
 
     printLegs() {
-
+        
     }
 
     getX() {

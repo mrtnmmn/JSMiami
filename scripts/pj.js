@@ -2,8 +2,7 @@ class Pj{
 
     constructor(){
         this.v = 6
-        this.img = loadImage('sprites/mainPj.png')
-        // this.img =loadSpriteSheet('sprites/sprPAttackPuºnch_strip7.png', 171, 158, 11)
+        this.img = loadImage('sprites/pjM16.png')
         this.velX = 0
         this.velY = 0
         this.x = 400

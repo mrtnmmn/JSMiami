@@ -19,9 +19,9 @@ class Pj{
         this.lastShot = 0
 
         // sprites
-        this.sprites = [loadImage('sprites/pjM16.png'),
-            loadImage('sprites/pjM16Shot.png'),
-            loadImage('sprites/pjDeath01.png')]
+        this.sprites = [loadImage('sprites/pj/pjM16.png'),
+            loadImage('sprites/pj/pjM16Shot.png'),
+            loadImage('sprites/pj/pjDeath01.png')]
     }
 
     right(){

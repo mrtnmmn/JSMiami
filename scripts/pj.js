@@ -9,6 +9,8 @@ class Pj{
         this.y = 400
         this.width = 32
         this.height = 20
+        this.middleX = 16 
+        this.middleY = 10
     }
 
     right(){

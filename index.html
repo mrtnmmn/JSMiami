@@ -11,12 +11,17 @@
     <link rel="stylesheet" href="styles.css">
     <script src="scripts/pj.js"></script>
     <script src="scripts/bullet.js"></script>
+    <script src="scripts/dog.js"></script>
 </head>
 <body>
     <script>
         let pj
         let mill = 0
+        // borrar: 
+        let milldog = 0
+
         let bullets = []
+        let enemies = []
 
         function setup() {
             createCanvas(800 , 800)
@@ -70,30 +75,44 @@
             if (mouseIsPressed) {
                 if (millis() >=  mill + 100) {
                     mill = millis()
-                    bullets.push(b = new bullet(pj.x,pj.y, calculateAngle() ))
+                    bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
                     
                 }
             }
 
+            if (keyIsDown(82)) {
+                if (millis() >=  milldog + 200) {
+                    milldog = millis()
+                    enemies.push(dog = new dog(700,700))               
+                }
+            }
+
+
             background(150)
 
+            bullets.forEach(bullet => bullet.dibujar())
+
+            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
+
             push()
-            translate(pj.x, pj.y);
-            let a = atan2(mouseY - pj.y , mouseX - pj.x);
+            translate(pj.x + 25, pj.y + 8);
+            let a = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25));
             rotate(a);
             pj.dibujar()
             pop()
-
-            bullets.forEach(bullet => bullet.dibujar());
 
         }
 
         function calculateAngle() {
             push() 
-            translate(pj.x, pj.y)
-            let radians = atan2(mouseY - pj.y , mouseX - pj.x)
+            translate(pj.x + 25, pj.y + 8)
+            let radians = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25))
             pop()
             return radians
+        }
+
+        function checkColisions() {
+
         }
 
     </script>

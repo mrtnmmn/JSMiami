@@ -1,8 +1,8 @@
 class Pj{
 
     constructor(){
-        this.v = 6
-        this.img = loadImage('sprites/pjM16.png')
+        this.v = 4
+        this.sprite = loadImage('sprites/pjM16.png')
         this.velX = 0
         this.velY = 0
         this.x = 400
@@ -11,26 +11,39 @@ class Pj{
         this.height = 20
         this.middleX = 16 
         this.middleY = 10
+        this.isAlive = true 
+
+        // Ammo
+        this.ammo = 30
+        this.maxAmmo = 30
+        this.lastShot = 0
     }
 
     right(){
-        this.x += this.v
+        if ((this.x + this.width) < 750) {
+            this.x += this.v
+        }
     }
     
     left(){
-        this.x -= this.v
+        if (this.x > 50) {
+            this.x -= this.v
+        }
     }
 
     up() {
-        this.y -= this.v
+        if (this.y > 50){
+            this.y -= this.v
+        }
     }
 
     down() {
+        if ((this.y + this.height) < 750)
         this.y += this.v
     }
 
     dibujar(){
-        image(this.img,-8, -10)
+        image(this.sprite,-8, -10)
     } 
 
     getX() {
@@ -39,5 +52,17 @@ class Pj{
 
     getY() {
         return (this.y + this.height)
+    }
+
+    shoot(mill) {
+        this.ammo -= 1
+        this.lastShot = mill
+        console.log(this.ammo)
+    }
+
+    reload(mill) {
+        if (this.lastShot + 1500 < mill) {
+            this.ammo = this.maxAmmo
+        }
     }
 } 

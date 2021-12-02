@@ -4,7 +4,7 @@ class enemy{
         this.v = 5
         this.x = x 
         this.y = y 
-
+        this.img = 'ruta'
     }
 
     dibujar() {

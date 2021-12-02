@@ -28,32 +28,6 @@
             pj = new Pj()
         }
 
-        /*function draw() {
-            background(220)
-
-            if (keyIsDown(65)) {
-                pj.left()
-            }
-
-            if (keyIsDown(68)) {
-                pj.right()
-            }
-
-            if (keyIsDown(87)) {
-                pj.up()
-            }
-            
-            if (keyIsDown(83)) {
-                pj.down()
-            }
-
-            rect(400,400,100,1)
-            rect(400,400,1,100)
-            
-            pj.dibujar(mouseX, mouseY)
-
-        }*/
-
         function draw() {
 
             if (keyIsDown(65)) {
@@ -73,12 +47,18 @@
             }
 
             if (mouseIsPressed) {
-                if (millis() >=  mill + 100) {
+                if (millis() >=  mill + 100 && pj.ammo != 0) {
                     mill = millis()
+                    pj.shoot(millis())
                     bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
-                    
-                }
+                } /*else if (pj.ammo === 0) {
+                    pj.reload(millis())
+                } */
             }
+            
+            if (pj.ammo === 0) {
+                pj.reload(millis())
+            } 
 
             if (keyIsDown(82)) {
                 if (millis() >=  milldog + 200) {
@@ -90,7 +70,16 @@
 
             background(150)
 
+
+            push() 
+            translate(200, 200)
+            rotate(PI/4)
+            rect(0,0,100,1)
+            pop()
+
             bullets.forEach(bullet => bullet.dibujar())
+            bullets.forEach(bullet => bullet.checkCollision())
+            bullets = bullets.filter(bullet => bullet.onAir === true)
 
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
 
@@ -100,6 +89,9 @@
             rotate(a);
             pj.dibujar()
             pop()
+
+
+            printAmmo()
 
         }
 
@@ -111,8 +103,15 @@
             return radians
         }
 
-        function checkColisions() {
+        function printAmmo() {
 
+            let ammo = pj.ammo 
+
+            if (ammo != 0) {
+                text('ammo: ' + pj.ammo + '/' + pj.maxAmmo, 700,790)
+            } else {
+                text('Reloading' , 700,790)
+            }
         }
 
     </script>

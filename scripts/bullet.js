@@ -1,7 +1,7 @@
 class bullet {
 
     constructor(x, y, angle) {
-        this.v = 15
+        this.v = 20
         this.x = x
         this.y = y 
         this.a = angle
@@ -10,7 +10,10 @@ class bullet {
         this.sprite = loadImage('sprites/bullet.png')
         this.middleX = 3
         this.middleY = 3
+        this.onAir = true
     }
+
+    // dibujar con sprite
 
     /*
     dibujar() {
@@ -30,4 +33,17 @@ class bullet {
         this.x += this.vX
         this.y += this.vY
     }
-}  
+
+    checkCollision(){
+        if(this.x > 800 || this.x < 0 || this.y < 0 || this.y > 800) {
+            this.onAir = false 
+        }
+    }
+
+    logPosition() {
+        console.log(Math.round(this.x))
+        console.log(Math.round(this.y))
+        console.log(this.onAir)
+    } 
+
+}

@@ -50,9 +50,9 @@ class dog {
         this.y += this.vY
     }
 
-    die() {
+    die(x, y) {
         this.isAlive = false
-        this.angle = this.calculateAngle(this.x, this.y)
+        this.angle = this.calculateAngle(x, y)
     }
 
     ownTranslation() {

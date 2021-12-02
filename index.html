@@ -46,6 +46,10 @@
                 pj.down()
             }
 
+            if (keyIsDown(77)) {
+                pj.die()
+            }
+
             if (mouseIsPressed) {
                 if (millis() >=  mill + 100 && pj.ammo != 0) {
                     mill = millis()
@@ -70,27 +74,11 @@
 
             background(150)
 
-
-            push() 
-            translate(200, 200)
-            rotate(PI/4)
-            rect(0,0,100,1)
-            pop()
-
-            bullets.forEach(bullet => bullet.dibujar())
-            bullets.forEach(bullet => bullet.checkCollision())
-            bullets = bullets.filter(bullet => bullet.onAir === true)
+            printBullets()
 
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
 
-            push()
-            translate(pj.x + 25, pj.y + 8);
-            let a = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25));
-            rotate(a);
-            pj.dibujar()
-            pop()
-
-
+            printPj()
             printAmmo()
 
         }
@@ -101,6 +89,21 @@
             let radians = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25))
             pop()
             return radians
+        }
+
+        function printBullets() {
+            bullets.forEach(bullet => bullet.dibujar())
+            bullets.forEach(bullet => bullet.checkCollision())
+            bullets = bullets.filter(bullet => bullet.onAir === true)
+        }
+
+        function printPj() {
+            push()
+            translate(pj.x + 25, pj.y + 8);
+            let a = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25));
+            rotate(a);
+            pj.dibujar()
+            pop()
         }
 
         function printAmmo() {

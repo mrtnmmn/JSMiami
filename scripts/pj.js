@@ -2,8 +2,9 @@ class Pj{
 
     constructor(){
         this.v = 4
-        this.sprite = loadImage('sprites/pjM16.png')
-        this.spriteShot = loadImage('sprites/pjM16Shot.png')
+        this.sprites = [loadImage('sprites/pjM16.png'),
+            loadImage('sprites/pjM16Shot.png'),
+            loadImage('sprites/pjDeath01.png')]
         this.velX = 0
         this.velY = 0
         this.x = 400
@@ -44,10 +45,17 @@ class Pj{
     }
 
     dibujar(){
-        if (millis() - this.lastShot < 50) {
-            image(this.spriteShot,-8, -10)
+        if (this.isAlive) {
+            if (millis() - this.lastShot < 50) {
+                image(this.sprites[1], -8, -10)
+            } else {
+                image(this.sprites[0], -8, -10)
+            }
         } else {
-            image(this.sprite,-8, -10)
+            push()
+            rotate(PI)
+            image(this.sprites[2], -8, -10)
+            pop()
         }
     } 
 
@@ -69,5 +77,9 @@ class Pj{
         if (this.lastShot + 1500 < mill) {
             this.ammo = this.maxAmmo
         }
+    }
+
+    die() {
+        this.isAlive = false 
     }
 } 

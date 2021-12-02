@@ -10,10 +10,13 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="styles.css">
     <script src="scripts/pj.js"></script>
+    <script src="scripts/bullet.js"></script>
 </head>
 <body>
     <script>
         let pj
+        let mill = 0
+        let bullets = []
 
         function setup() {
             createCanvas(800 , 800)
@@ -64,8 +67,12 @@
                 pj.down()
             }
 
-            if (keyIsDown (32)) {
-                console.log('shot')
+            if (mouseIsPressed) {
+                if (millis() >=  mill + 100) {
+                    mill = millis()
+                    bullets.push(b = new bullet(pj.x,pj.y, calculateAngle() ))
+                    
+                }
             }
 
             background(150)
@@ -77,6 +84,16 @@
             pj.dibujar()
             pop()
 
+            bullets.forEach(bullet => bullet.dibujar());
+
+        }
+
+        function calculateAngle() {
+            push() 
+            translate(pj.x, pj.y)
+            let radians = atan2(mouseY - pj.y , mouseX - pj.x)
+            pop()
+            return radians
         }
 
     </script>

@@ -44,7 +44,7 @@ class Pj{
         this.y += this.v
     }
 
-    dibujar(){
+    dibujar(){ 
         if (this.isAlive) {
             if (millis() - this.lastShot < 50) {
                 image(this.sprites[1], -8, -10)
@@ -59,6 +59,10 @@ class Pj{
         }
     } 
 
+    printLegs() {
+
+    }
+
     getX() {
         return (this.x + this.width)
     }
@@ -70,7 +74,6 @@ class Pj{
     shoot(mill) {
         this.ammo -= 1
         this.lastShot = mill
-        console.log(this.ammo)
     }
 
     reload(mill) {

@@ -67,12 +67,12 @@
             if (keyIsDown(82)) {
                 if (millis() >=  milldog + 200) {
                     milldog = millis()
-                    enemies.push(dog = new dog(700,700))               
+                    enemies.push(new dog(700,700))               
                 }
             }
 
             if (keyIsDown(84)) {
-                enemies[0].die(pj.x + pj.middleX, pj.y + pj.middleY)
+                enemies[enemies.length - 1].die(pj.x + pj.middleX, pj.y + pj.middleY)
             }
 
 

@@ -3,6 +3,7 @@ class Pj{
     constructor(){
         this.v = 4
         this.sprite = loadImage('sprites/pjM16.png')
+        this.spriteShot = loadImage('sprites/pjM16Shot.png')
         this.velX = 0
         this.velY = 0
         this.x = 400
@@ -43,7 +44,11 @@ class Pj{
     }
 
     dibujar(){
-        image(this.sprite,-8, -10)
+        if (millis() - this.lastShot < 50) {
+            image(this.spriteShot,-8, -10)
+        } else {
+            image(this.sprite,-8, -10)
+        }
     } 
 
     getX() {

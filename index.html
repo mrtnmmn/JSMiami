@@ -12,7 +12,9 @@
     <script defer src="https://unpkg.com/p5.collide2d"></script>
     <script src="scripts/pj.js"></script>
     <script src="scripts/bullet.js"></script>
-    <script src="scripts/dog.js"></script>
+    <script src="scripts/enemies/dog.js"></script>
+    <script src="scripts/enemies/enemyKnife.js"></script>
+
 </head>
 <body>
     <script>
@@ -23,6 +25,8 @@
 
         let bullets = []
         let enemies = []
+
+        let round1 = []
 
         function setup() {
             createCanvas(800 , 800)
@@ -69,7 +73,10 @@
                 if (keyIsDown(82)) {
                     if (millis() >=  milldog + 200) {
                         milldog = millis()
-                        enemies.push(new dog(700,700))               
+                        enemies.push(new dog(0, calculateRandomMN(0,800)))    
+                        enemies.push(new enemyKnife(800, calculateRandomMN(0,800)))  
+                        enemies.push(new enemyKnife(0, calculateRandomMN(0,800)))          
+
                     }
                 }
 
@@ -112,7 +119,7 @@
                 enemies.forEach(function(enemy) {
                     console.log(bullet.x, bullets.indexOf(bullet))
                     let hit = false
-                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX)
+                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX * 2)
                     if (hit) {
                         enemy.isAlive = false
                         bullet.onAir = false
@@ -134,7 +141,7 @@
             enemies.forEach(function(enemy) {
                 if (enemy.isAlive) {
                     let hit = false 
-                    hit = collideCircleCircle((pj.x + pj.middleX), (pj.y + pj.middleY), pj.middleY, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX)
+                    hit = collideCircleCircle((pj.x + pj.middleX), (pj.y + pj.middleY), pj.middleY, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX * 2)
                     if (hit) {
                         pj.isAlive = false
                     }
@@ -151,6 +158,10 @@
             } else {
                 text('Reloading...' , 700,790)
             }
+        }
+
+        function calculateRandomMN(m, n) {
+            return Math.round(Math.random()*(m-n)+n)
         }
 
     </script>

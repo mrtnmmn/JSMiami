@@ -1,20 +1,19 @@
-class dog {
+class enemyKnife{ 
 
-    constructor(x,y){
-        this.x = x
-        this.y = y
-        this.v = 7
-        this.sprites = [loadImage('sprites/dogs/dog.png'),
-            loadImage('sprites/dogs/dogDeath01.png'),
-            loadImage('sprites/dogs/dogDeath02.png'),
-            loadImage('sprites/dogs/dogDeath03.png')]
+    constructor(x, y, mill) {
+        this.v = 5
+        this.x = x 
+        this.y = y 
+        this.img = loadImage('sprites/enemies/enemyKnife/enemyKnife.png')
         this.vX = 0
         this.vY = 0
-        this.middleX = 13
-        this.middleY = 5
+        this.middleX = 7
+        this.middleY = 11
+        this.isSpawned = false
+        this.spawnMillis = mill
         this.isAlive = true
         this.angle = 0
-        this.deathSprite = this.sprites[this.calculateRandomMN(1,3)]
+        this.deathSprite = loadImage('sprites/enemies/enemyKnife/enemyKnifeDead.png')
     }
 
     dibujar(xPJ, yPJ) {
@@ -23,13 +22,13 @@ class dog {
             this.ownTranslation()
             this.angle = this.calculateAngle(xPJ, yPJ)
             rotate(this.angle)
-            image(this.sprites[0], -this.middleX, -this.middleY)
+            image(this.img , -this.middleX, -this.middleY)
             this.updatePosition(this.angle)
             pop()
         } else {
             push() 
             this.ownTranslation()
-            rotate(this.angle)
+            rotate(this.angle - PI)
             image(this.deathSprite, -this.middleX, -this.middleY)
             pop()
         }

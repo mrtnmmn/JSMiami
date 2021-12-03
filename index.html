@@ -9,6 +9,7 @@
     integrity="sha512-N4kV7GkNv7QR7RX9YF/olywyIgIwNvfEe2nZtfyj73HdjCUkAfOBDbcuJ/cTaN04JKRnw1YG1wnUyNKMsNgg3g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="https://unpkg.com/p5.collide2d"></script>
     <script src="scripts/pj.js"></script>
     <script src="scripts/bullet.js"></script>
     <script src="scripts/dog.js"></script>
@@ -79,6 +80,7 @@
             background(150)
 
             printBullets()
+            checkBulletEnemyCollision()
 
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
 
@@ -99,6 +101,19 @@
             bullets.forEach(bullet => bullet.dibujar())
             bullets.forEach(bullet => bullet.checkCollision())
             bullets = bullets.filter(bullet => bullet.onAir === true)
+        }
+
+        function checkBulletEnemyCollision() {
+            bullets.forEach(function(bullet) {
+                enemies.forEach(function(enemy) {
+                    console.log(bullet.x, bullets.indexOf(bullet))
+                    let hit = false
+                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX);
+                    if (hit) {
+                        enemy.isAlive = false
+                    }
+                })
+            })
         }
 
         function printPj() {

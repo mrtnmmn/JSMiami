@@ -111,6 +111,7 @@
                     hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX);
                     if (hit) {
                         enemy.isAlive = false
+                        bullet.onAir = false
                     }
                 })
             })

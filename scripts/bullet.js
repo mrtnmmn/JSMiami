@@ -1,7 +1,7 @@
 class bullet {
 
     constructor(x, y, angle) {
-        this.v = 20
+        this.v = 15
         this.x = x
         this.y = y 
         this.a = angle

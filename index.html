@@ -31,62 +31,66 @@
 
         function draw() {
 
-            if (keyIsDown(65)) {
-                pj.left()
-            }
-
-            if (keyIsDown(68)) {
-                pj.right()
-            }
-
-            if (keyIsDown(87)) {
-                pj.up()
-            }
-            
-            if (keyIsDown(83)) {
-                pj.down()
-            }
-
-            if (keyIsDown(77)) {
-                pj.die()
-            }
-
-            if (mouseIsPressed) {
-                if (millis() >=  mill + 100 && pj.ammo != 0) {
-                    mill = millis()
-                    pj.shoot(millis())
-                    bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
-                } /*else if (pj.ammo === 0) {
-                    pj.reload(millis())
-                } */
-            }
-            
-            if (pj.ammo === 0) {
-                pj.reload(millis())
-            } 
-
-            if (keyIsDown(82)) {
-                if (millis() >=  milldog + 200) {
-                    milldog = millis()
-                    enemies.push(new dog(700,700))               
+            if(pj.isAlive) {
+                if (keyIsDown(65)) {
+                    pj.left()
                 }
+
+                if (keyIsDown(68)) {
+                    pj.right()
+                }
+
+                if (keyIsDown(87)) {
+                    pj.up()
+                }
+            
+                if (keyIsDown(83)) {
+                    pj.down()
+                }
+
+                if (keyIsDown(77)) {
+                    pj.die()
+                }
+
+                if (mouseIsPressed) {
+                    if (millis() >=  mill + 100 && pj.ammo != 0) {
+                        mill = millis()
+                        pj.shoot(millis())
+                        bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
+                    } /*else if (pj.ammo === 0) {
+                        pj.reload(millis())
+                    } */
+                }
+            
+                if (pj.ammo === 0) {
+                    pj.reload(millis())
+                } 
+
+                if (keyIsDown(82)) {
+                    if (millis() >=  milldog + 200) {
+                        milldog = millis()
+                        enemies.push(new dog(700,700))               
+                    }
+                }
+
+                if (keyIsDown(84)) {
+                    enemies[enemies.length - 1].die(pj.x + pj.middleX, pj.y + pj.middleY)
+                }
+
+
+                background(150)
+
+                printBullets()
+                checkBulletEnemyCollision()
+
+                checkEnemyPjColision()
+
+                enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
+
+                printPj()
+                printAmmo()
+
             }
-
-            if (keyIsDown(84)) {
-                enemies[enemies.length - 1].die(pj.x + pj.middleX, pj.y + pj.middleY)
-            }
-
-
-            background(150)
-
-            printBullets()
-            checkBulletEnemyCollision()
-
-            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
-
-            printPj()
-            printAmmo()
-
         }
 
         function calculateAngle() {
@@ -108,7 +112,7 @@
                 enemies.forEach(function(enemy) {
                     console.log(bullet.x, bullets.indexOf(bullet))
                     let hit = false
-                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX);
+                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX)
                     if (hit) {
                         enemy.isAlive = false
                         bullet.onAir = false
@@ -124,6 +128,18 @@
             rotate(a);
             pj.dibujar()
             pop()
+        }
+
+        function checkEnemyPjColision() {
+            enemies.forEach(function(enemy) {
+                if (enemy.isAlive) {
+                    let hit = false 
+                    hit = collideCircleCircle((pj.x + pj.middleX), (pj.y + pj.middleY), pj.middleY, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX)
+                    if (hit) {
+                        pj.isAlive = false
+                    }
+                }
+            })
         }
 
         function printAmmo() {

@@ -31,12 +31,31 @@
 
         let round1 = []
 
+        let mainTheme 
+        let playing = false 
+        let shotM16
+
+        function preload() {
+            mainTheme = loadSound('sounds/soundtrack/hydrogen.mp3')
+        }
+
         function setup() {
+            shotM16 = loadSound('sounds/shots/M16Shot.mp3')
             createCanvas(800 , 800)
             pj = new Pj()
         }
 
+        function startSong() {
+            mainTheme.play();
+
+        }
+
         function draw() {
+
+            if (!playing) {
+                startSong()
+                playing = true
+            }
 
             if(pj.isAlive) {
                 if (keyIsDown(65)) {
@@ -64,6 +83,7 @@
                         mill = millis()
                         pj.shoot(millis())
                         bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
+                        shotM16.play()
                     } /*else if (pj.ammo === 0) {
                         pj.reload(millis())
                     } */

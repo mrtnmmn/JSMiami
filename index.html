@@ -94,6 +94,10 @@
                 } 
 
                 if (keyIsDown(82)) {
+                    pj.ammo = 0
+                }
+
+                if (keyIsDown(84)) {
                     if (millis() >=  milldog + 200) {
                         milldog = millis()
                         enemies.push(new dog(0, calculateRandomMN(0,800)))    
@@ -101,10 +105,6 @@
                         enemies.push(new enemyKnife(0, calculateRandomMN(0,800)))          
 
                     }
-                }
-
-                if (keyIsDown(84)) {
-                    enemies[enemies.length - 1].die(pj.x + pj.middleX, pj.y + pj.middleY)
                 }
 
 

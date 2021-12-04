@@ -80,7 +80,7 @@ class Pj{
     }
 
     reload(mill) {
-        if (this.lastShot + 1500 < mill) {
+        if (this.lastShot + 1250 < mill) {
             this.ammo = this.maxAmmo
         }
     }

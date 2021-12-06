@@ -28,6 +28,7 @@
 
         let bullets = []
         let enemies = []
+        let killKounter = 0
 
         let round1 = []
 
@@ -94,7 +95,9 @@
                 } 
 
                 if (keyIsDown(82)) {
-                    pj.ammo = 0
+                    if (pj.ammo != 30) {
+                        pj.ammo = 0
+                    }
                 }
 
                 if (keyIsDown(84)) {
@@ -110,13 +113,14 @@
 
                 background(150)
 
+                printInfo()
+
                 printBullets()
                 checkBulletEnemyCollision()
 
                 checkEnemyPjColision()
 
                 enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
-
                 printPj()
                 printAmmo()
 
@@ -140,12 +144,13 @@
         function checkBulletEnemyCollision() {
             bullets.forEach(function(bullet) {
                 enemies.forEach(function(enemy) {
-                    console.log(bullet.x, bullets.indexOf(bullet))
-                    let hit = false
-                    hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX * 2)
-                    if (hit) {
-                        enemy.isAlive = false
-                        bullet.onAir = false
+                    if (enemy.isAlive) {
+                        let hit = false
+                        hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX * 2)
+                        if (hit) {
+                            enemy.isAlive = false
+                            bullet.onAir = false
+                        }
                     }
                 })
             })
@@ -185,6 +190,86 @@
 
         function calculateRandomMN(m, n) {
             return Math.round(Math.random()*(m-n)+n)
+        }
+
+        function printInfo() {
+            text('Clk izq: disparar - wasd: movimiento - r: recargar - t: spawnear enemigos', 7, 15 )
+        }
+
+        // rounds
+        round1.forEach(function(func) {
+            func()   
+        })
+
+
+        // spawn functions 
+
+        function spawnDog() {
+            let position = calculateSpawn()
+            enemies.push(new dog(position[0], position[1]))
+        }
+
+        function spawnKnife() {
+            let position = calculateSpawn() 
+            enemies.push(new enemyKnife(position[0], position[1]))
+        }
+
+
+        // functions to determine spawn point in the perimeter equivalent to 
+        // a rectangle with coordinates 
+        // [[-100, -100], [900, -100], [-100, 900], [900, 900]] 
+        function coinflip() {
+            return Math.round(Math.random()*(2-1)+1)
+        }
+
+        function calculateSpawn() {
+            let decision =  coinflip()
+
+            if (decision === 1) {
+                return calculateArroundX()
+            } else {
+                return calculateArroundY()
+            }
+        }
+
+        function calculateArroundX() {
+            let decision = coinflip()
+
+            let x = 0
+            let y = calculateSecondPosition()
+
+            if (decision === 1) {
+                x = -100 
+            } else {
+                x = 900
+            }
+
+            return [x, y] 
+        }
+
+        function calculateArroundY() {
+            let decision = coinflip()
+
+            let y = 0
+            let x = calculateSecondPosition()
+
+            if (decision === 1) {
+                y = -100 
+            } else {
+                y = 900
+            }           
+
+            return [x, y]
+        }
+
+        function calculateSecondPosition() {
+            let decision = calculateRandomMN(10,1)
+
+            if (decision === 1) {
+                return (calculateRandomMN(100, 0) * (-1))
+            } else {
+                return calculateRandomMN(900,0)
+            }
         }
 
     </script>

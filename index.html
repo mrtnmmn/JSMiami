@@ -59,73 +59,72 @@
             }
 
             if(pj.isAlive) {
-                if (keyIsDown(65)) {
-                    pj.left()
-                }
 
-                if (keyIsDown(68)) {
-                    pj.right()
-                }
+                checkKeys()
 
-                if (keyIsDown(87)) {
-                    pj.up()
-                }
-            
-                if (keyIsDown(83)) {
-                    pj.down()
-                }
-
-                if (keyIsDown(77)) {
-                    pj.die()
-                }
-
-                if (mouseIsPressed) {
-                    if (millis() >=  mill + 100 && pj.ammo != 0) {
-                        mill = millis()
-                        pj.shoot(millis())
-                        bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
-                        shotM16.play()
-                    } /*else if (pj.ammo === 0) {
-                        pj.reload(millis())
-                    } */
-                }
-            
                 if (pj.ammo === 0) {
                     pj.reload(millis())
                 } 
 
-                if (keyIsDown(82)) {
-                    if (pj.ammo != 30) {
-                        pj.ammo = 0
-                    }
-                }
-
-                if (keyIsDown(84)) {
-                    if (millis() >=  milldog + 200) {
-                        milldog = millis()
-                        enemies.push(new dog(0, calculateRandomMN(0,800)))    
-                        enemies.push(new enemyKnife(800, calculateRandomMN(0,800)))  
-                        enemies.push(new enemyKnife(0, calculateRandomMN(0,800)))          
-
-                    }
-                }
-
                 checkSpawn(40)
-
                 background(150)
-
                 printKills()
                 printInfo()
-
                 printBullets()
                 checkBulletEnemyCollision()
-
                 checkEnemyPjColision()
-
                 enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
                 printPj()
                 printAmmo()
 
+            }
+        }
+
+        function checkKeys() {
+            if (keyIsDown(65)) {
+                pj.left()
+            }
+
+            if (keyIsDown(68)) {
+                pj.right()
+            }
+
+            if (keyIsDown(87)) {
+                pj.up()
+            }
+            
+            if (keyIsDown(83)) {
+                pj.down()
+            }
+
+            if (keyIsDown(77)) {
+                pj.die()
+            }
+
+            if (mouseIsPressed) {
+                if (millis() >=  mill + 100 && pj.ammo != 0) {
+                    mill = millis()
+                    pj.shoot(millis())
+                    bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
+                    shotM16.play()
+                } /*else if (pj.ammo === 0) {
+                    pj.reload(millis())
+                } */
+            }
+
+            if (keyIsDown(82)) {
+                if (pj.ammo != 30) {
+                    pj.ammo = 0
+                }
+            }
+
+            if (keyIsDown(84)) {
+                if (millis() >=  milldog + 200) {
+                    milldog = millis()
+                    enemies.push(new dog(0, calculateRandomMN(0,800)))    
+                    enemies.push(new enemyKnife(800, calculateRandomMN(0,800)))  
+                    enemies.push(new enemyKnife(0, calculateRandomMN(0,800)))          
+                }
             }
         }
 

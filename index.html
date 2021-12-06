@@ -110,9 +110,11 @@
                     }
                 }
 
+                checkSpawn(40)
 
                 background(150)
 
+                printKills()
                 printInfo()
 
                 printBullets()
@@ -150,6 +152,7 @@
                         if (hit) {
                             enemy.isAlive = false
                             bullet.onAir = false
+                            killKounter += 1
                         }
                     }
                 })
@@ -214,6 +217,25 @@
             enemies.push(new enemyKnife(position[0], position[1]))
         }
 
+        function checkSpawn(n) {
+            decision = calculateRandomMN(n,1)
+
+            if (decision === 1) {
+                spawnRandomEnemy()
+            }
+        }
+
+        function spawnRandomEnemy() {
+            let decision = coinflip()
+
+            let coord = calculateSpawn() 
+
+            if (decision === 1) {
+                enemies.push(new dog(coord[0], coord[1]))
+            } else {
+                enemies.push(new enemyKnife(coord[0], coord[1]))
+            }
+        }
 
         // functions to determine spawn point in the perimeter equivalent to 
         // a rectangle with coordinates 
@@ -270,6 +292,10 @@
             } else {
                 return calculateRandomMN(900,0)
             }
+        }
+
+        function printKills() {
+            text('kills: ' + killKounter , 10, 790)
         }
 
     </script>

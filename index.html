@@ -97,11 +97,13 @@
                                 startTransition = millis()
                                 pj.x = 400
                                 pj.y = 400
+                                bullets = []
                                 mgr.showScene(nightmareTransition)
                             }
                             else if (circle[3] === 0) {
                                 mainTheme.stop()
                                 playing = false
+                                bullets = []
                                 mgr.showScene(normalMode)
                             }
                         }
@@ -157,7 +159,7 @@
 
             this.checkChange = function() {
                 console.log(millis() - this.start)
-                if ((millis() - startTransition) > 5000) {
+                if ((millis() - startTransition) > 2500) {
                     mgr.showScene(nightmareMode)
                 }
             }
@@ -202,38 +204,6 @@
         function draw() {
             mgr.draw()
         }
-
-        /*
-        function draw() {
-
-            if (!playing) {
-                startSong()
-                playing = true
-            }
-
-            if(pj.isAlive) {
-
-                checkKeys()
-
-                if (pj.ammo === 0) {
-                    pj.reload(millis())
-                } 
-
-                checkSpawn(40)
-                background(150)
-                printKills()
-                printInfo()
-                printBullets()
-                checkBulletEnemyCollision()
-                checkEnemyPjColision()
-                enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
-                printPj()
-                printAmmo()
-                drawNightmare()
-
-
-            }
-        } */
 
         function drawNightmare() {
             push()

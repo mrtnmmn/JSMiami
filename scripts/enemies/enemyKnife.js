@@ -14,6 +14,7 @@ class enemyKnife{
         this.isAlive = true
         this.angle = 0
         this.deathSprite = loadImage('sprites/enemies/enemyKnife/enemyKnifeDead.png')
+        this.currentSprite = this.img
     }
 
     dibujar(xPJ, yPJ, alivePJ) {
@@ -23,7 +24,7 @@ class enemyKnife{
                 this.ownTranslation()
                 this.angle = this.calculateAngle(xPJ, yPJ)
                 rotate(this.angle)
-                image(this.img , -this.middleX, -this.middleY)
+                image(this.currentSprite , -this.middleX, -this.middleY)
                 this.updatePosition(this.angle)
                 pop()
             } else {
@@ -60,6 +61,7 @@ class enemyKnife{
     die(x, y) {
         this.isAlive = false
         this.angle = this.calculateAngle(x, y)
+        this.currentSprite = this.deathSprite
     }
 
     ownTranslation() {

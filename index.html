@@ -178,25 +178,29 @@
 
                 if(pj.isAlive) {
 
-                    checkKeys()
-
-                    if (pj.ammo === 0) {
-                        pj.reload(millis())
-                    } 
-
-                    checkSpawn(40)
-                    background(150)
-                    printKills()
                     printInfo()
-                    printBullets()
-                    checkBulletEnemyCollision()
-                    checkEnemyPjColision()
-                    checkEnemyBodies()
-                    enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
-                    printPj()
+                    combatRoutine()
                     drawNightmare()
                 }
             }
+        }
+
+        function combatRoutine() {
+            checkKeys()
+
+            if (pj.ammo === 0) {
+                pj.reload(millis())
+            } 
+
+            checkSpawn(40)
+            background(150)
+            printKills()
+            printBullets()
+            checkBulletEnemyCollision()
+            checkEnemyPjColision()
+            checkEnemyBodies()
+            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
+            printPj()
         }
 
         function startSong() {

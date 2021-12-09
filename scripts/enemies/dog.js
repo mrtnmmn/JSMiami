@@ -17,6 +17,7 @@ class dog {
         this.isAlive = true
         this.angle = 0
         this.deathSprite = this.sprites[this.calculateRandomMN(1,3)]
+        this.actualSprite = this.sprites[0]
     }
 
     dibujar(xPJ, yPJ, alivePJ) {
@@ -26,21 +27,21 @@ class dog {
                 this.ownTranslation()
                 this.angle = this.calculateAngle(xPJ, yPJ)
                 rotate(this.angle)
-                image(this.sprites[0], -this.middleX, -this.middleY)
+                image(this.actualSprite, -this.middleX, -this.middleY)
                 this.updatePosition(this.angle)
                 pop()
             } else {
                 push() 
                 this.ownTranslation()
                 rotate(this.angle)
-                image(this.deathSprite, -this.middleX, -this.middleY)
+                image(this.actualSprite, -this.middleX, -this.middleY)
                 pop()
             }
         } else {
             push() 
             this.ownTranslation()
             rotate(this.angle)
-            image(this.sprites[0], -this.middleX, -this.middleY)
+            image(this.actualSprite, -this.middleX, -this.middleY)
             pop()
         }
     }
@@ -61,6 +62,7 @@ class dog {
     }
 
     die(x, y) {
+        this.actualSprite = this.deathSprite
         this.isAlive = false
         this.angle = this.calculateAngle(x, y)
     }

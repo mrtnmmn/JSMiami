@@ -136,6 +136,7 @@
                     printBullets()
                     checkBulletEnemyCollision()
                     checkEnemyPjColision()
+                    checkEnemyBodies()
                     enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
                     printPj()
                     printAmmo()
@@ -190,6 +191,7 @@
                     printBullets()
                     checkBulletEnemyCollision()
                     checkEnemyPjColision()
+                    checkEnemyBodies()
                     enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
                     printPj()
                     drawNightmare()
@@ -280,6 +282,23 @@
             bullets = bullets.filter(bullet => bullet.onAir === true)
         }
 
+        function checkEnemyBodies() {
+            
+            let contDeath = 0
+
+            enemies.forEach(function(enemy){
+                if(!enemy.isAlive) {
+                    contDeath += 1
+                }
+            })
+
+            console.log(contDeath)
+
+            if(contDeath >= 20) {
+                enemies.splice(0,1)
+            }
+        }
+
         function checkBulletEnemyCollision() {
             bullets.forEach(function(bullet) {
                 enemies.forEach(function(enemy) {
@@ -333,7 +352,7 @@
         }
 
         function printInfo() {
-            text('Clk izq: disparar - wasd: movimiento - r: recargar - t: spawnear enemigos', 7, 15 )
+            text('Clk izq: disparar - wasd: movimiento - r: recargar', 7, 15 )
         }
 
         // rounds

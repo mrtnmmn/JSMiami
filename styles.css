@@ -14,3 +14,10 @@ body {
     background-image: url("sprites/bg.jpg");
     background-size: 200vh;
 }
+
+@font-face {
+font-family: "Shotgun";
+    src: url(fonts/shotgun.ttf) format("truetype");
+}
+
+.fontShotgun { font-family: "Shotgun", sans-serif }

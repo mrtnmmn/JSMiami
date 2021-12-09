@@ -23,6 +23,7 @@
 <body>
     <script>
         let pj
+        let pjAngle
         let mill = 0
         // borrar: 
         let milldog = 0
@@ -38,17 +39,20 @@
         let shotM16
 
         let gradual
+        let deathOverlay
 
         let startTransition
 
         function preload() {
             mainTheme = loadSound('sounds/soundtrack/horseStepping.mp3')
             normalTheme = loadSound('sounds/soundtrack/hydrogen.mp3')
+            shotgunFont = loadFont('fonts/shotgun.ttf')
         }
 
         function setup() {
             shotM16 = loadSound('sounds/shots/M16Shot.mp3')
             gradual = loadImage('sprites/nightmare/nightmare_big.png')
+            deathOverlay = loadImage('sprites/overlay_death.png')
             createCanvas(800 , 800)
             pj = new Pj()
 
@@ -74,6 +78,11 @@
             this.draw = function() {
 
                 background(150)
+
+                push()
+                textFont(shotgunFont)
+                text('Hola', 100, 100 )
+                pop()
 
                 circle(200,200,50)
                 circle(600,200,50)
@@ -137,9 +146,11 @@
                     checkBulletEnemyCollision()
                     checkEnemyPjColision()
                     checkEnemyBodies()
-                    enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
+                    enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
                     printPj()
                     printAmmo()
+                } else {
+                    printDeath() 
                 }
             }
         }
@@ -181,6 +192,8 @@
                     printInfo()
                     combatRoutine()
                     drawNightmare()
+                } else {
+
                 }
             }
         }
@@ -199,8 +212,21 @@
             checkBulletEnemyCollision()
             checkEnemyPjColision()
             checkEnemyBodies()
-            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY))
+            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
             printPj()
+        }
+
+        function printDeath() {
+            background(150)
+            enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, false))
+            printPj()
+            image(deathOverlay, 0, 0)
+            push()
+            fill('red')
+            textFont(shotgunFont)
+            textSize(175)
+            text('You Died', 100, 200)
+            pop()
         }
 
         function startSong() {
@@ -320,12 +346,22 @@
         }
 
         function printPj() {
-            push()
-            translate(pj.x + 25, pj.y + 8);
-            let a = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25));
-            rotate(a+0.07);
-            pj.dibujar()
-            pop()
+            if (pj.isAlive) {
+                push()
+                translate(pj.x + 25, pj.y + 8);
+                let a = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25));
+                pjAngle = a + 0.07
+                rotate(pjAngle);
+                pj.dibujar()
+                pop()
+            } else {
+                push()
+                translate(pj.x + 25, pj.y + 8);
+                rotate(pjAngle);
+                pj.dibujar()
+                pop()
+            }
+
         }
 
         function checkEnemyPjColision() {

@@ -12,6 +12,7 @@ class Pj{
         this.middleX = 16 
         this.middleY = 10
         this.isAlive = true 
+        this.deathAngle = 0
 
         // Ammo
         this.ammo = 30

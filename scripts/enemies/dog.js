@@ -3,7 +3,7 @@ class dog {
     constructor(x,y, mill){
         this.x = x
         this.y = y
-        this.v = 7
+        this.v = 6
         this.sprites = [loadImage('sprites/enemies/dogs/dog.png'),
             loadImage('sprites/enemies/dogs/dogDeath01.png'),
             loadImage('sprites/enemies/dogs/dogDeath02.png'),

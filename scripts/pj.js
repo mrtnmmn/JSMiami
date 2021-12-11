@@ -50,6 +50,7 @@ class Pj{
 
     dibujar(){ 
         if (this.isAlive) {
+            circle(0,0,550)
             if (millis() - this.lastShot < 50) {
                 image(this.sprites[1], -8, -10)
             } else {

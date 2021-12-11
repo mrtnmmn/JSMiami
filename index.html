@@ -18,6 +18,7 @@
     <script src="scripts/bullet.js"></script>
     <script src="scripts/enemies/dog.js"></script>
     <script src="scripts/enemies/enemyKnife.js"></script>
+    <script src="scripts/enemies/enemyM16.js"></script>
 
 </head>
 <body>
@@ -25,11 +26,13 @@
         let pj
         let pjAngle
         let mill = 0
+
         // borrar: 
         let milldog = 0
 
         let bullets = []
         let enemies = []
+
         let shotsFired = 0
         let shotsLanded = 0
         let killKounter = 0
@@ -72,9 +75,12 @@
 
         function mainMenu() {
 
+            let enemy = new enemyM16(800,800, true)
+
             if (!playing) {
                 mainTheme.play()
                 playing = true
+
             }
 
             circles = [[200,200,50, 0], [600,200,50, 1]]
@@ -94,6 +100,9 @@
                 checkKeys()
                 printBullets()
                 printPj()
+
+                enemy.dibujar(pj.x, pj.y, true)
+
                 this.checkBullet()
  
             }
@@ -156,7 +165,6 @@
                     enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
                     printPj()
                     printAmmo()
-                    console.log(shotsFired, shotsLanded)
                 } else {
                     printDeath() 
                     checkKeysDeathNormal()
@@ -232,7 +240,7 @@
             printPj()
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, false))
             image(deathOverlay, 0, 0)
-
+1
             printFinalInfo()
         }
 

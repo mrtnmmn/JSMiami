@@ -117,7 +117,7 @@
                 pop()
 
                 printCross()
- 
+                
             }
 
             this.printTitle = function() {
@@ -434,8 +434,8 @@
 
         function resetPJ() {
             pj.isAlive = true
-            pj.x = 400
-            pj.y = 400
+            pj.x = 400 - pj.middleX
+            pj.y = 400 - pj.middleY
             bullets = []
             enemies = []
             killKounter = 0
@@ -542,12 +542,6 @@
         function printInfo() {
             text('Clk izq: disparar - wasd: movimiento - r: recargar', 7, 15 )
         }
-
-        // rounds
-        round1.forEach(function(func) {
-            func()   
-        })
-
 
         // spawn functions 
 

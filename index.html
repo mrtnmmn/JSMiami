@@ -28,7 +28,7 @@
         let mill = 0
 
         // menu
-        let opciones = ["Normal", "NIGHTMARE", "Select WEAPON", "Select Mask"]
+        let opciones = ["Normal", "Nightmare", "Select Weapon", "Select Mask"]
         let selectedOption = 0
         let cooldown= 0
 
@@ -89,7 +89,6 @@
             if (!playing) {
                 mainTheme.play()
                 playing = true
-
             }
 
             this.draw = function() {
@@ -103,7 +102,7 @@
                 push()
                 textSize(200)
                 textAlign(CENTER)
-                fill(250, 0, 250)
+                fill(160, 0, 255)
                 textFont(wideAwake)
                 this.printTitle()
                 textSize(100)
@@ -144,7 +143,7 @@
                 fill(0,0,255)
             }
             else {
-                fill(255, 0, 0)
+                fill(255, 0, 255)
             }
         } 
 
@@ -267,9 +266,18 @@
             textSize(175)
             text('You Died', 100, 200)
             textSize(50)
+            textFont(wideAwake)
             text('Kills ' + killKounter, 100, 350)
             text('Time Survived  ' + Math.round(finalTime/100)/10 + '  SECONDS', 100, 450)
-            text('Precission ' + Math.round(shotsLanded * 100 / shotsFired) + ' %', 100, 550)
+            text('Precission ' + Math.round(shotsLanded * 100 / shotsFired), 100, 550)
+            text('Restart R', 100, 650)
+            text('Back to lobby T', 100, 750)
+
+            fill(255, 255, 255)
+            textFont(wideAwakeBlack)
+            text('Kills ' + killKounter, 100, 350)
+            text('Time Survived  ' + Math.round(finalTime/100)/10 + '  SECONDS', 100, 450)
+            text('Precission ' + Math.round(shotsLanded * 100 / shotsFired), 100, 550)
             text('Restart R', 100, 650)
             text('Back to lobby T', 100, 750)
             pop()
@@ -327,28 +335,43 @@
                 } */
 
                 if (selectedOption === 0) {
+                    mainTheme.stop()
                     mgr.showScene(normalMode)
                 } else if (selectedOption === 1) {
+                    mainTheme.stop()
                     mgr.showScene(nightmareTransition)
                 }
             }
         }
 
         function checkKeys() {
-            if (keyIsDown(65)) {
-                pj.left()
-            }
 
-            if (keyIsDown(68)) {
-                pj.right()
-            }
+            
 
             if (keyIsDown(87)) {
-                pj.up()
-            }
+                if (keyIsDown(68)) {
+                    pj.upRight()
+                } else if (keyIsDown(65)) {
+                    pj.upLeft()
+                } else {
+                    pj.up()
+                }
+            } else if (keyIsDown(83)) {
+                if (keyIsDown(68)) {
+                    pj.downRight()
+                } else if (keyIsDown(65)) {
+                    pj.downLeft()
+                } else {
+                    pj.down()
+                }
+            } else {
+                if (keyIsDown(65)) {
+                    pj.left()
+                }
             
-            if (keyIsDown(83)) {
-                pj.down()
+                if (keyIsDown(68)) {
+                    pj.right()
+                }
             }
 
             if (keyIsDown(77)) {
@@ -376,32 +399,15 @@
 
         function checkKeysDeathNormal() {
 
-            
-
             if (keyIsDown(82)) {
                 startTime = millis()
-                pj.isAlive = true
-                pj.x = 400
-                pj.y = 400
-                bullets = []
-                enemies = []
-                killKounter = 0
-                shotsFired = 0
-                shotsLanded = 0
+                resetPJ()
                 pj.ammo = 30
             }
 
             if (keyIsDown(84)) {
                 startTime = millis()
-                pj.isAlive = true
-                pj.x = 400
-                pj.y = 400
-                bullets = []
-                enemies = []
-                killKounter = 0
-                shotsFired = 0
-                shotsLanded = 0
-                pj.ammo = 30
+                resetPJ()
                 mgr.showScene(mainMenu)
             }
         }
@@ -410,32 +416,28 @@
 
             if (keyIsDown(82)) {
                 startTime = millis()
-                pj.isAlive = true
-                pj.x = 400
-                pj.y = 400
-                bullets = []
-                enemies = []
-                killKounter = 0
-                shotsFired = 0
-                shotsLanded = 0
-                pj.ammo = 30
+                resetPJ()
                 playing = false 
             }
 
             if (keyIsDown(84)) {
                 startTime = millis()
-                pj.isAlive = true
-                pj.x = 400
-                pj.y = 400
-                bullets = []
-                enemies = []
-                killKounter = 0
-                shotsFired = 0
-                shotsLanded = 0
-                pj.ammo = 30
-                playing = false 
+                resetPJ()
                 mgr.showScene(nightmareMode)
             }
+        }
+
+        function resetPJ() {
+            pj.isAlive = true
+            pj.x = 400
+            pj.y = 400
+            bullets = []
+            enemies = []
+            killKounter = 0
+            shotsFired = 0
+            shotsLanded = 0
+            pj.ammo = 30
+            playing = false 
         }
 
         function calculateAngle() {

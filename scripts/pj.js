@@ -3,6 +3,7 @@ class Pj{
     constructor(){
         // stats
         this.v = 4
+        this.vD = this.v * Math.cos(PI / 4)
         this.velX = 0
         this.velY = 0
         this.x = 400
@@ -43,10 +44,54 @@ class Pj{
         }
     }
 
+    upRight() {
+        if (this.y > 0 && this.x < 800){
+            this.y -= this.vD
+            this.x += this.vD
+        } else if (this.y < 0 && this.x < 800) {
+            this.x += this.vD
+        } else if (this.y > 0 && this.x > 800) {
+            this.y -= this.vD
+        }
+    }
+
+    upLeft() {
+        if (this.y > 0 && this.x > 0){
+            this.y -= this.vD
+            this.x -= this.vD
+        } else if (this.y < 0 && this.x > 0) {
+            this.x -= this.vD
+        } else if (this.y > 0 && this.x < 0) {
+            this.y -= this.vD
+        }  
+    }
+
 
     down() {
         if ((this.y + this.height) < 800)
         this.y += this.v
+    }
+
+    downRight() {
+        if (this.y < 800 && this.x < 800){
+            this.y += this.vD
+            this.x += this.vD
+        } else if (this.y > 800 && this.x < 800) {
+            this.x += this.vD
+        } else if (this.y < 800 && this.x > 800) {
+            this.y += this.vD
+        }
+    }
+
+    downLeft() {
+        if (this.y < 800 && this.x > 0){
+            this.y += this.vD
+            this.x -= this.vD
+        } else if (this.y > 800 && this.x > 0) {
+            this.x -= this.vD
+        } else if (this.y < 800 && this.x < 0) {
+            this.y += this.vD
+        }  
     }
 
     dibujar(){ 

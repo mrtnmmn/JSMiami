@@ -122,35 +122,6 @@
                 pop()
             }
 
-            this.checkBullet = function() {
-                bullets.forEach(function(bullet) {
-                    circles.forEach(function(circle) { 
-                        let hit = false 
-                        hit = collideCircleCircle(bullet.x, bullet.y, 5, circle[0], circle[1], circle[2])
-                        if (hit) {
-                            if (circle[3] === 1) {
-                                mainTheme.stop()
-                                playing = false
-                                startTransition = millis()
-                                pj.x = 400
-                                pj.y = 400
-                                bullets = []
-                                startTime = millis()
-                                shotsFired = 0
-                                mgr.showScene(nightmareTransition)
-                            }
-                            else if (circle[3] === 0) {
-                                mainTheme.stop()
-                                playing = false
-                                bullets = []
-                                shotsFired = 0
-                                mgr.showScene(normalMode)
-                            }
-                        }
-                    })
-                })
-            }
-
         }
 
         function drawMenu() {

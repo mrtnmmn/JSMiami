@@ -327,6 +327,8 @@
 
         function checkKeysDeathNormal() {
 
+            
+
             if (keyIsDown(82)) {
                 startTime = millis()
                 pj.isAlive = true
@@ -338,15 +340,20 @@
                 shotsFired = 0
                 shotsLanded = 0
                 pj.ammo = 30
-                playing = false 
             }
 
             if (keyIsDown(84)) {
-                mgr.showScene(mainMenu)
-                pj.ammo = 0
+                startTime = millis()
                 pj.isAlive = true
                 pj.x = 400
                 pj.y = 400
+                bullets = []
+                enemies = []
+                killKounter = 0
+                shotsFired = 0
+                shotsLanded = 0
+                pj.ammo = 30
+                mgr.showScene(mainMenu)
             }
         }
 
@@ -367,11 +374,18 @@
             }
 
             if (keyIsDown(84)) {
-                mgr.showScene(nightmareMode)
-                pj.ammo = 0
+                startTime = millis()
                 pj.isAlive = true
                 pj.x = 400
                 pj.y = 400
+                bullets = []
+                enemies = []
+                killKounter = 0
+                shotsFired = 0
+                shotsLanded = 0
+                pj.ammo = 30
+                playing = false 
+                mgr.showScene(nightmareMode)
             }
         }
 

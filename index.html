@@ -91,7 +91,7 @@
 
                 push()
                 textFont(shotgunFont)
-                text('Hola', 100, 100 )
+                text('Normal', 100, 100 )
                 pop()
 
                 circle(200,200,50)
@@ -240,7 +240,6 @@
             printPj()
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, false))
             image(deathOverlay, 0, 0)
-1
             printFinalInfo()
         }
 
@@ -324,12 +323,16 @@
             if (keyIsDown(82)) {
                 startTime = millis()
                 pj.isAlive = true
+                pj.x = 400
+                pj.y = 400
+                normalTheme.stop()
                 bullets = []
                 enemies = []
                 killKounter = 0
                 shotsFired = 0
                 shotsLanded = 0
                 pj.ammo = 30
+                playing = false 
             }
 
             if (keyIsDown(84)) {

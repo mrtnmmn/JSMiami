@@ -26,31 +26,30 @@ class Pj{
     }
 
     right(){
-        if ((this.x + this.width) < 750) {
+        if ((this.x + this.width) < 800) {
             this.x += this.v
         }
     }
     
     left(){
-        if (this.x > 50) {
+        if (this.x > 0) {
             this.x -= this.v
         }
     }
 
     up() {
-        if (this.y > 50){
+        if (this.y > 0){
             this.y -= this.v
         }
     }
 
     down() {
-        if ((this.y + this.height) < 750)
+        if ((this.y + this.height) < 800)
         this.y += this.v
     }
 
     dibujar(){ 
         if (this.isAlive) {
-            circle(0,0,550)
             if (millis() - this.lastShot < 50) {
                 image(this.sprites[1], -8, -10)
             } else {

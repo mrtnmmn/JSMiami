@@ -43,6 +43,7 @@ class Pj{
         }
     }
 
+
     down() {
         if ((this.y + this.height) < 800)
         this.y += this.v

@@ -52,6 +52,7 @@
 
         let gradual
         let deathOverlay
+        let cursor
 
         let startNightmareTransition = 0
 
@@ -69,6 +70,7 @@
             gradual = loadImage('sprites/nightmare/nightmare_big.png')
             deathOverlay = loadImage('sprites/overlay_death.png')
             bgMain = loadImage('sprites/bgMain.png')
+            cursor = loadImage('sprites/sprCursor.png')
             createCanvas(800 , 800)
             pj = new Pj()
 
@@ -84,14 +86,18 @@
 
         function mainMenu() {
 
-            //let enemy = new enemyM16(800,800, true)
-
-            if (!playing) {
-                mainTheme.play()
-                playing = true
-            }
-
             this.draw = function() {
+
+                console.log(playing)
+                //let enemy = new enemyM16(800,800, true)
+
+                if (!playing) {
+                    mainTheme.play()
+                    playing = true
+                }
+
+
+                console.log('main')
 
                 background(150)
 
@@ -109,6 +115,8 @@
                 drawMenu()
                 checkSelection()
                 pop()
+
+                printCross()
  
             }
 
@@ -150,6 +158,7 @@
         function normalMode() {
 
             this.draw = function() {
+
                 if (!playing) {
                     startSong()
                     playing = true
@@ -174,6 +183,7 @@
                     enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
                     printPj()
                     printAmmo()
+                    printCross()
                 } else {
                     normalTheme.stop()
                     printDeath() 
@@ -326,19 +336,14 @@
             }
 
             if (keyIsDown(13)) {
-                /*
-                switch (selectedOption) {
-                    case 0:
-                        mgr.showScene(normalMode)
-                    case 1: 
-                        mgr.showScene(nightmareTransition)
-                } */
 
                 if (selectedOption === 0) {
                     mainTheme.stop()
+                    playing = false 
                     mgr.showScene(normalMode)
                 } else if (selectedOption === 1) {
                     mainTheme.stop()
+                    playing = false
                     mgr.showScene(nightmareTransition)
                 }
             }
@@ -406,6 +411,7 @@
             if (keyIsDown(84)) {
                 startTime = millis()
                 resetPJ()
+                playing = false 
                 mgr.showScene(mainMenu)
             }
         }
@@ -421,6 +427,7 @@
             if (keyIsDown(84)) {
                 startTime = millis()
                 resetPJ()
+                playing = false 
                 mgr.showScene(nightmareMode)
             }
         }
@@ -633,6 +640,10 @@
 
         function printKills() {
             text('kills: ' + killKounter , 10, 790)
+        }
+
+        function printCross () {
+            image(cursor, mouseX - 12, mouseY - 12)
         }
 
     </script>

@@ -110,4 +110,8 @@ class enemyM16 {
         return atan2(y - (this.y + this.middleY), x - (this.x + this.middleX))
     }
 
+    disparar() {
+
+    }
+
 }

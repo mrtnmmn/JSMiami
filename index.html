@@ -277,6 +277,7 @@
 
         function setMaskPj() {
             pj.currentMask = pj.maskSprites[selectedMask]
+
             if (selectedMask === 0) {
                 pj.v = 4
                 pj.vD = 4 * Math.cos(PI / 4)
@@ -327,7 +328,6 @@
                     checkSpawn(40)
                     background(150)
                     printKills()
-                    printInfo()
                     printBullets()
                     printCross()
                     checkBulletEnemyCollision()
@@ -383,7 +383,6 @@
 
                 if(pj.isAlive) {
 
-                    printInfo()
                     combatRoutine()
                     drawNightmare()
                     printCross()
@@ -694,10 +693,6 @@
 
         function calculateRandomMN(m, n) {
             return Math.round(Math.random()*(m-n)+n)
-        }
-
-        function printInfo() {
-            text('Clk izq: disparar - wasd: movimiento - r: recargar', 7, 15 )
         }
 
         // spawn functions 

@@ -25,6 +25,13 @@ class Pj{
         this.sprites = [loadImage('sprites/pj/pjM16.png'),
             loadImage('sprites/pj/pjM16Shot.png'),
             loadImage('sprites/pj/pjDeath01.png')]
+
+        this.maskSprites = [loadImage('sprites/masks/richard.png'),
+            loadImage('sprites/masks/peter.png'),
+            loadImage('sprites/masks/rick.png'),
+            loadImage('sprites/masks/brandon.png')]
+
+        this.currentMask = this.maskSprites[0]
     }
 
     right(){
@@ -97,10 +104,12 @@ class Pj{
 
     dibujar(){ 
         if (this.isAlive) {
-            if (millis() - this.lastShot < 50) {
+            if (millis() - this.lastShot < 50 && this.ammo != 0) {
                 image(this.sprites[1], -8, -10)
+                image(this.currentMask, -7, -11)
             } else {
                 image(this.sprites[0], -8, -10)
+                image(this.currentMask, -8, -11)
             }
         } else {
             push()

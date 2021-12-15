@@ -276,21 +276,30 @@
         } 
 
         function setMaskPj() {
+            pj.currentMask = pj.maskSprites[selectedMask]
             if (selectedMask === 0) {
                 pj.v = 4
+                pj.vD = 4 * Math.cos(PI / 4)
                 pj.ammo = 30
+                pj.maxAmmo = 30
                 pj.reloadTime = 1250
             } else if (selectedMask === 1) {
                 pj.v = 4
+                pj.vD = 4 * Math.cos(PI / 4)
                 pj.ammo = 35
+                pj.maxAmmo = 35
                 pj.reloadTime = 1250
             } else if (selectedMask === 2) {
                 pj.v = 4 
+                pj.vD = 4 * Math.cos(PI / 4)
                 pj.ammo = 30
+                pj.maxAmmo = 30
                 pj.reloadTime = 900
             } else if (selectedMask === 3) {
                 pj.v = 6
+                pj.vD = 6 * Math.cos(PI / 4)
                 pj.ammo = 30 
+                pj.maxAmmo = 30
                 pj.reloadTime = 1250
             }
         }
@@ -541,6 +550,7 @@
             if (keyIsDown(82)) {
                 if (pj.ammo != 30) {
                     pj.ammo = 0
+                    pj.lastShot = millis()
                 }
             }
         }
@@ -672,11 +682,14 @@
 
             let ammo = pj.ammo 
 
+            push()
+            textAlign(RIGHT)
             if (ammo != 0) {
-                text('ammo: ' + pj.ammo + '/' + pj.maxAmmo, 700,790)
+                writeWideAwake(('Ammo: ' + pj.ammo + '/' + pj.maxAmmo), 780, 790, 255, 0, 255, 50)
             } else {
-                text('Reloading...' , 700,790)
+                writeWideAwake('Reloading...', 780, 790, 255, 0, 255, 50)
             }
+            pop()
         }
 
         function calculateRandomMN(m, n) {
@@ -817,11 +830,24 @@
         }
 
         function printKills() {
-            text('kills: ' + killKounter , 10, 790)
+           writeWideAwake(('Kills: ' + killKounter), 10, 790, 255, 0, 255, 50)
         }
 
         function printCross () {
             image(cursor, mouseX - 9, mouseY - 9)
+        }
+
+        function writeWideAwake(textW, x, y, r, g, b, sizeT) {
+            push()
+            textFont(wideAwake)
+            fill(r,g,b)
+            textSize(sizeT)
+            text(textW , x, y)
+
+            fill(255,255,255)
+            textFont(wideAwakeBlack)
+            text(textW, x, y)
+            pop()
         }
 
     </script>

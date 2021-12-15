@@ -138,6 +138,8 @@
                 pop()
 
                 printCross()
+
+                console.log(pj.v + ' ' + selectedMask)
                 
             }
 
@@ -252,6 +254,9 @@
 
                     if (keyIsDown(13)) {
                         cooldown = millis()
+
+                        setMaskPj()
+
                         mgr.showScene(mainMenu)
                     }
                 }
@@ -270,9 +275,31 @@
             }
         } 
 
+        function setMaskPj() {
+            if (selectedMask === 0) {
+                pj.v = 4
+                pj.ammo = 30
+                pj.reloadTime = 1250
+            } else if (selectedMask === 1) {
+                pj.v = 4
+                pj.ammo = 35
+                pj.reloadTime = 1250
+            } else if (selectedMask === 2) {
+                pj.v = 4 
+                pj.ammo = 30
+                pj.reloadTime = 900
+            } else if (selectedMask === 3) {
+                pj.v = 6
+                pj.ammo = 30 
+                pj.reloadTime = 1250
+            }
+        }
+
         function normalMode() {
 
             this.draw = function() {
+
+                console.log(pj.v + ' ' + selectedMask)
 
                 if (!playing) {
                     startSong()
@@ -678,7 +705,6 @@
             checkSpawnTime()
 
             if (millis() - lastSpawn > spawnTime) {
-                console.log(millis() - lastSpawn + '   ' + spawnTime)
                 spawnRandomEnemy()
             } else {
                 if (millis() - lastSpawn > spawnCap) {
@@ -696,7 +722,6 @@
 
         function checkSpawnTime() {
             let milsCheckTime = millis() - startTime
-            console.log(milsCheckTime)
             if (milsCheckTime < 30000) {
                 spawnTime = 1500
             } else if (milsCheckTime > 30000 && milsCheckTime < 60000) {

@@ -14,6 +14,7 @@ class Pj{
         this.middleY = 10
         this.isAlive = true 
         this.deathAngle = 0
+        this.reloadTime = 1250
 
         // Ammo
         this.ammo = 30
@@ -127,7 +128,7 @@ class Pj{
     }
 
     reload(mill) {
-        if (this.lastShot + 1250 < mill) {
+        if (this.lastShot + this.reloadTime < mill) {
             this.ammo = this.maxAmmo
         }
     }

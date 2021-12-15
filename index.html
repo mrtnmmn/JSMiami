@@ -29,18 +29,24 @@
 
         // menu
         let opciones = ["Normal", "Nightmare", "Select Weapon", "Select Mask"]
-        let weapons = ["Pistol", "M16", "Shotgun"]
         let masksNames = ["Richard", "Peter", "Rick", "Brandon"]  
         let masksInfo = ["Pro guy", "More bullets", "Faster reload", "Does speed"]
         let maskImages = []
+        let guns = ["M16", "Pistol", "Shotgun"]
+        let gunImages = []
         let selectedOption = 0
         let selectedMask = 0 
+        let selectedGun = 0
         let cooldown= 0
 
         let richard 
         let peter
         let rick 
         let brandon
+
+        let m16Big
+        let pistolBig
+        let shotGunBig
 
         // borrar: 
         let milldog = 0
@@ -91,6 +97,16 @@
             maskImages.push(peter)
             maskImages.push(rick)
             maskImages.push(brandon) 
+
+            //loadGuns
+            m16Big = loadImage('sprites/guns/m16Big.png')
+            pistolBig = loadImage('sprites/guns/pistolBig.png')
+            shotGunBig = loadImage('sprites/guns/shotgunBig.png')
+            gunImages.push(m16Big)
+            gunImages.push(pistolBig)
+            gunImages.push(shotGunBig)
+
+
         }
 
         function setup() {
@@ -105,6 +121,7 @@
             mgr.addScene(nightmareTransition)
             mgr.addScene(nightmareMode)
             mgr.addScene(maskSelection)
+            mgr.addScene(gunSelection)
 
             mgr.showScene(mainMenu)
         }
@@ -239,13 +256,13 @@
                         if (selectedMask > 0 ) {
                             selectedMask -= 1 
                         } else {
-                            selectedMask = opciones.length - 1
+                            selectedMask = maskImages.length - 1
                         }
                     }
             
                     if (keyIsDown(68)) {
                         cooldown = millis()
-                        if (selectedMask < opciones.length -1 ) {
+                        if (selectedMask < maskImages.length -1 ) {
                             selectedMask += 1 
                         } else {
                             selectedMask = 0
@@ -281,27 +298,133 @@
             if (selectedMask === 0) {
                 pj.v = 4
                 pj.vD = 4 * Math.cos(PI / 4)
-                pj.ammo = 30
-                pj.maxAmmo = 30
-                pj.reloadTime = 1250
+                pj.ammo = pj.ammo
+                pj.maxAmmo = pj.maxAmmo
+                pj.reloadTime = pj.reloadTime
             } else if (selectedMask === 1) {
                 pj.v = 4
                 pj.vD = 4 * Math.cos(PI / 4)
-                pj.ammo = 35
-                pj.maxAmmo = 35
-                pj.reloadTime = 1250
+
+                if (selectedGun === 0) {
+                    pj.ammo = 35
+                    pj.maxAmmo = 35
+                } else if (selectedGun === 1) {
+                    pj.ammo = 14
+                    pj.maxAmmo = 14
+                } else if (selectedGun === 2) {
+                    pj.ammo = 7
+                    pj.maxAmmo = 7
+                }
+                pj.reloadTime = pj.reloadTime
+
             } else if (selectedMask === 2) {
                 pj.v = 4 
                 pj.vD = 4 * Math.cos(PI / 4)
-                pj.ammo = 30
-                pj.maxAmmo = 30
-                pj.reloadTime = 900
+                pj.ammo = pj.ammo
+                pj.maxAmmo = pj.maxAmmo
+                pj.reloadTime = pj.reloadTime * 0.8
             } else if (selectedMask === 3) {
                 pj.v = 6
                 pj.vD = 6 * Math.cos(PI / 4)
-                pj.ammo = 30 
+                pj.ammo = pj.ammo
+                pj.maxAmmo = pj.maxAmmo
+                pj.reloadTime = pj.reloadTime
+            }
+        }
+
+        function gunSelection() {
+            
+            this.draw = function() {
+                background(150)
+
+                image(bgMain, 0, 0)
+
+                this.drawGunSelection()
+                this.checkKeysGunSelection()
+            }
+
+            this.drawGunSelection = function() {
+                push()
+                imageMode(CENTER)
+                image(gunImages[selectedGun], 400, 300)
+                pop()
+
+                this.drawGunName()
+            }
+
+            this.drawGunName = function() {
+                
+                push()
+                textAlign(CENTER)
+                writeWideAwake(guns[selectedGun], 400, 500, 255, 0, 255, 100)
+                pop()
+
+            }
+
+            this.checkKeysGunSelection = function() {
+                if (millis() - cooldown > 150) {
+                    if (keyIsDown(65)) {
+                        cooldown = millis()
+                        if (selectedGun > 0 ) {
+                            selectedGun -= 1 
+                        } else {
+                            selectedGun = guns.length - 1
+                        }
+                    }
+            
+                    if (keyIsDown(68)) {
+                        cooldown = millis()
+                        if (selectedGun < guns.length -1 ) {
+                            selectedGun += 1 
+                        } else {
+                            selectedGun = 0
+                        }
+                    }
+
+                    if (keyIsDown(13)) {
+                        cooldown = millis()
+                        mgr.showScene(mainMenu)
+                    }
+                }
+            }
+
+            this.otherGun = function(x) {
+                let indexReturn = selectedGun + x
+                
+                if (indexReturn < 0) {
+                    return (guns.length) - 1
+                } else if (indexReturn >= guns.length) {
+                    return 0
+                } else {
+                    return indexReturn
+                }
+            }
+
+        }
+
+        function setGun() {
+
+            if (selectedGun === 0) {
+                pj.ammo = 30
                 pj.maxAmmo = 30
-                pj.reloadTime = 1250
+                pj.reloadTime = 1000
+                pj.currentSprite = pj.sprites[0]
+                pj.currentSpriteShot = pj.sprites[1]
+                pj.currentGun = 0
+            } else if (selectedGun === 1) {
+                pj.ammo = 12
+                pj.maxAmmo = 12
+                pj.reloadTime = 750
+                pj.currentSprite = pj.sprites[2]
+                pj.currentSpriteShot = pj.sprites[3]
+                pj.currentGun = 1
+            } else if (selectedGun === 2) {
+                pj.ammo = 6
+                pj.maxAmmo = 6
+                pj.reloadTime = 1200
+                pj.currentSprite = pj.sprites[4]
+                pj.currentSpriteShot = pj.sprites[5]
+                pj.currentGun = 2
             }
         }
 
@@ -491,11 +614,17 @@
                 if (selectedOption === 0) {
                     mainTheme.stop()
                     playing = false 
+                    setGun()
+                    setMaskPj()
                     mgr.showScene(normalMode)
                 } else if (selectedOption === 1) {
                     mainTheme.stop()
+                    setGun()
+                    setMaskPj()
                     playing = false
                     mgr.showScene(nightmareTransition)
+                } else if (selectedOption === 2) {
+                    mgr.showScene(gunSelection)
                 } else if (selectedOption === 3) {
                     mgr.showScene(maskSelection)
                 }
@@ -535,19 +664,39 @@
             }
 
             if (mouseIsPressed) {
-                if (millis() >=  mill + 100 && pj.ammo != 0) {
-                    mill = millis()
-                    pj.shoot(millis())
-                    bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
-                    shotM16.play()
-                    shotsFired += 1
-                } /*else if (pj.ammo === 0) {
-                    pj.reload(millis())
-                } */
+
+                if (selectedGun === 0) {
+                    if (millis() >=  mill + 100 && pj.ammo != 0) {
+                        mill = millis()
+                        pj.shoot(millis())
+                        bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
+                        shotM16.play()
+                        shotsFired += 1
+                    }
+                } else if (selectedGun === 1) {
+                    if (millis() >=  mill + 200 && pj.ammo != 0) {
+                        mill = millis()
+                        pj.shoot(millis())
+                        bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
+                        shotM16.play()
+                        shotsFired += 1
+                    }
+                } else if (selectedGun === 2) {
+                    if (millis() >=  mill + 400 && pj.ammo != 0) {
+                        mill = millis()
+                        pj.shoot(millis())
+                        for (let i = 0; i < 6; i++) {
+                            bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngleShotgun() ))
+                        }
+                        shotM16.play()
+                        shotsFired += 1
+                    }
+                }
             }
 
             if (keyIsDown(82)) {
-                if (pj.ammo != 30) {
+
+                if (pj.ammo != pj.maxAmmo) {
                     pj.ammo = 0
                     pj.lastShot = millis()
                 }
@@ -559,7 +708,6 @@
             if (keyIsDown(82)) {
                 startTime = millis()
                 resetPJ()
-                pj.ammo = 30
             }
 
             if (keyIsDown(84)) {
@@ -595,7 +743,7 @@
             killKounter = 0
             shotsFired = 0
             shotsLanded = 0
-            pj.ammo = 30
+            pj.ammo = pj.maxAmmo
             playing = false 
         }
 
@@ -605,6 +753,24 @@
             let radians = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25))
             pop()
             return radians
+        }
+
+        function calculateAngleShotgun() {
+            push() 
+            translate(pj.x + 25, pj.y + 8)
+            let radians = atan2(mouseY - (pj.y + 8) , mouseX - (pj.x+ 25))
+            pop()
+            return (radians + shotgunAngleDiff())
+        }
+
+        function shotgunAngleDiff() {
+            let decision = coinflip()
+
+            if (decision === 1 ) {
+                return (Math.random()* 2) / 10
+            } else {
+                return ((Math.random() * 2) /10) * (-1) 
+            }
         }
 
         function printBullets() {

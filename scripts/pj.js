@@ -15,6 +15,7 @@ class Pj{
         this.isAlive = true 
         this.deathAngle = 0
         this.reloadTime = 1250
+        this.currentGun = 0
 
         // Ammo
         this.ammo = 30
@@ -24,6 +25,10 @@ class Pj{
         // sprites
         this.sprites = [loadImage('sprites/pj/pjM16.png'),
             loadImage('sprites/pj/pjM16Shot.png'),
+            loadImage('sprites/pj/pistol/pjPistol.png'),
+            loadImage('sprites/pj/pistol/pjPistolShot.png'),
+            loadImage('sprites/pj/shotgun/pjShotgun.png'),
+            loadImage('sprites/pj/shotgun/pjShotgunShot.png'),
             loadImage('sprites/pj/pjDeath01.png')]
 
         this.maskSprites = [loadImage('sprites/masks/richard.png'),
@@ -32,6 +37,8 @@ class Pj{
             loadImage('sprites/masks/brandon.png')]
 
         this.currentMask = this.maskSprites[0]
+        this.currentSprite
+        this.currentSpriteShot
     }
 
     right(){
@@ -103,12 +110,15 @@ class Pj{
     }
 
     dibujar(){ 
+
+        console.log(this.ammo)
+
         if (this.isAlive) {
             if (millis() - this.lastShot < 50 && this.ammo != 0) {
-                image(this.sprites[1], -8, -10)
+                image(this.currentSpriteShot, -8, -10)
                 image(this.currentMask, -7, -11)
             } else {
-                image(this.sprites[0], -8, -10)
+                image(this.currentSprite, -8, -10)
                 image(this.currentMask, -8, -11)
             }
         } else {
@@ -137,7 +147,8 @@ class Pj{
     }
 
     reload(mill) {
-        if (this.lastShot + this.reloadTime < mill) {
+
+        if(this.lastShot + this.reloadTime < mill) {
             this.ammo = this.maxAmmo
         }
     }

@@ -29,8 +29,18 @@
 
         // menu
         let opciones = ["Normal", "Nightmare", "Select Weapon", "Select Mask"]
+        let weapons = ["Pistol", "M16", "Shotgun"]
+        let masksNames = ["Richard", "Peter", "Rick", "Brandon"]  
+        let masksInfo = ["Pro guy", "More bullets", "Faster reload", "Does speed"]
+        let maskImages = []
         let selectedOption = 0
+        let selectedMask = 0 
         let cooldown= 0
+
+        let richard 
+        let peter
+        let rick 
+        let brandon
 
         // borrar: 
         let milldog = 0
@@ -65,15 +75,26 @@
             shotgunFont = loadFont('fonts/shotgun.ttf')
             wideAwake = loadFont('fonts/WIDEAWAKE.TTF')
             wideAwakeBlack = loadFont('fonts/WIDEAWAKEBLACK.ttf')
-
-        }
-
-        function setup() {
+            
             shotM16 = loadSound('sounds/shots/M16Shot.mp3')
             gradual = loadImage('sprites/nightmare/nightmare_big.png')
             deathOverlay = loadImage('sprites/overlay_death.png')
             bgMain = loadImage('sprites/bgMain.png')
             cursor = loadImage('sprites/sprCursor.png')
+
+            //loadMasks
+            richard = loadImage('sprites/masks/richardBig.png')
+            peter = loadImage('sprites/masks/peterBig.png')
+            rick = loadImage('sprites/masks/rickBig.png')
+            brandon = loadImage('sprites/masks/brandonBig.png')
+            maskImages.push(richard)
+            maskImages.push(peter)
+            maskImages.push(rick)
+            maskImages.push(brandon) 
+        }
+
+        function setup() {
+
             createCanvas(800 , 800)
             pj = new Pj()
 
@@ -83,6 +104,7 @@
             mgr.addScene(normalMode)
             mgr.addScene(nightmareTransition)
             mgr.addScene(nightmareMode)
+            mgr.addScene(maskSelection)
 
             mgr.showScene(mainMenu)
         }
@@ -100,7 +122,9 @@
 
                 image(bgMain, 0, 0)
 
-                checkKeysMenu()
+                if (millis() - cooldown > 150) {
+                    checkKeysMenu()                
+                }
 
                 push()
                 textSize(200)
@@ -149,6 +173,100 @@
             }
             else {
                 fill(255, 0, 255)
+            }
+        } 
+
+        function maskSelection() {
+
+
+            this.draw = function() {
+                background(150)
+
+                image(bgMain, 0, 0)
+
+                this.drawSelection()
+                this.checkKeysMaskSelection()
+            }
+
+            this.drawSelection = function() {
+                push()
+                imageMode(CENTER)
+                image(maskImages[this.otherMask(-1)],200,200, 200, 200)
+                image(maskImages[selectedMask], 400, 200, 400, 400)
+                image(maskImages[this.otherMask(1)],600,200, 200, 200)
+                pop()
+
+                this.drawMaskName()
+                this.drawMaskInfo()
+            }
+
+            this.drawMaskName = function() {
+                push()
+                textAlign(CENTER)
+                fill(255,0,255)
+                textSize(170)
+                textFont(wideAwake)
+                text(masksNames[selectedMask], 400, 550)
+
+
+                fill(255,255,255)
+                textFont(wideAwakeBlack)
+                text(masksNames[selectedMask], 400, 550)
+                pop()
+            }
+
+            this.drawMaskInfo = function() {
+                push()
+                textAlign(CENTER)
+                fill(255,0,255)
+                textSize(60)
+                textFont(wideAwake)
+                text(masksInfo[selectedMask], 400, 650)
+
+
+                fill(255,255,255)
+                textFont(wideAwakeBlack)
+                text(masksInfo[selectedMask], 400, 650)
+                pop()
+            }
+            
+            this.checkKeysMaskSelection = function() {
+                if (millis() - cooldown > 150) {
+                    if (keyIsDown(65)) {
+                        cooldown = millis()
+                        if (selectedMask > 0 ) {
+                            selectedMask -= 1 
+                        } else {
+                            selectedMask = opciones.length - 1
+                        }
+                    }
+            
+                    if (keyIsDown(68)) {
+                        cooldown = millis()
+                        if (selectedMask < opciones.length -1 ) {
+                            selectedMask += 1 
+                        } else {
+                            selectedMask = 0
+                        }
+                    }
+
+                    if (keyIsDown(13)) {
+                        cooldown = millis()
+                        mgr.showScene(mainMenu)
+                    }
+                }
+            }
+
+            this.otherMask = function(x) {
+                let indexReturn = selectedMask + x
+                
+                if (indexReturn < 0) {
+                    return (maskImages.length) - 1
+                } else if (indexReturn >= maskImages.length) {
+                    return 0
+                } else {
+                    return indexReturn
+                }
             }
         } 
 
@@ -334,7 +452,7 @@
             }
 
             if (keyIsDown(13)) {
-
+                cooldown = millis()
                 if (selectedOption === 0) {
                     mainTheme.stop()
                     playing = false 
@@ -343,6 +461,8 @@
                     mainTheme.stop()
                     playing = false
                     mgr.showScene(nightmareTransition)
+                } else if (selectedOption === 3) {
+                    mgr.showScene(maskSelection)
                 }
             }
         }
@@ -477,7 +597,7 @@
                 enemies.forEach(function(enemy) {
                     if (enemy.isAlive) {
                         let hit = false
-                        hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), enemy.middleX * 2)
+                        hit = collideCircleCircle(bullet.x, bullet.y, 5, (enemy.x + enemy.middleX), (enemy.y + enemy.middleY), (enemy.middleX * 2) + 8)
                         if (hit) {
                             enemy.die(pj.x + pj.middleX, pj.y + pj.middleY)
                             bullet.onAir = false

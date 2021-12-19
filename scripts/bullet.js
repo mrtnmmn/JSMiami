@@ -17,6 +17,8 @@ class bullet {
 
     
     dibujar() {
+        this.checkCollision() 
+        
         push()
         translate(this.x + this.middleX, this.y + this.middleY)
         rotate(this.a)
@@ -25,15 +27,6 @@ class bullet {
         this.x += this.vX
         this.y += this.vY
     }
-    
-    /*
-    dibujar() {
-        fill(255,255,255)
-        ellipse(this.x + this.middleX, this.y + this.middleY, 5, 5)
-        this.x += this.vX
-        this.y += this.vY
-    }
-    */
 
     checkCollision(){
         if(this.x > 800 || this.x < 0 || this.y < 0 || this.y > 800) {

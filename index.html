@@ -57,6 +57,7 @@
 
         let bullets = []
         let enemies = []
+        let enemyBullets = []
 
         let shotsFired = 0
         let shotsLanded = 0
@@ -66,8 +67,6 @@
         let spawnTime = 0
         let spawnCap = 0
         let lastSpawn = 0
-
-        let round1 = []
 
         let mainTheme 
         let playing = false 
@@ -82,11 +81,14 @@
         function preload() {
             mainTheme = loadSound('sounds/soundtrack/horseStepping.mp3')
             normalTheme = loadSound('sounds/soundtrack/hydrogen.mp3')
+            myBrother = loadSound('sounds/soundtrack/myBrother.mp3')
             shotgunFont = loadFont('fonts/shotgun.ttf')
             wideAwake = loadFont('fonts/WIDEAWAKE.TTF')
             wideAwakeBlack = loadFont('fonts/WIDEAWAKEBLACK.ttf')
             
             shotM16 = loadSound('sounds/shots/M16Shot.mp3')
+            shotPistol = loadSound('sounds/shots/pistolShot.mp3')
+            shotgunShot = loadSound('sounds/shots/shotgunShot.mp3')
             gradual = loadImage('sprites/nightmare/nightmare_big.png')
             deathOverlay = loadImage('sprites/overlay_death.png')
             bgMain = loadImage('sprites/bgMain.png')
@@ -451,14 +453,19 @@
                     background(150)
                     printKills()
                     printBullets()
+                    printTime()
                     printCross()
                     checkBulletEnemyCollision()
                     checkEnemyPjColision()
                     checkEnemyBodies()
+                    checkEnemyM16()
+                    printEnemyBulltes()
+                    checkEnemyBulletsPj()
                     enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
                     printPj()
                     printAmmo()
                 } else {
+                    enemyBullets = []
                     normalTheme.stop()
                     printDeath() 
                     checkKeysDeathNormal()
@@ -499,7 +506,7 @@
             this.draw = function() {
 
                 if (!playing) {
-                    startSong()
+                    myBrother.play()
                     playing = true
                 }
 
@@ -509,7 +516,8 @@
                     drawNightmare()
                     printCross()
                 } else {
-                    normalTheme.stop()
+                    enemyBullets = []
+                    myBrother.stop()
                     printDeath() 
                     checkKeysDeathNormal()
                 }
@@ -527,9 +535,13 @@
             background(150)
             printKills()
             printBullets()
+            printTime()
             checkBulletEnemyCollision()
             checkEnemyPjColision()
             checkEnemyBodies()
+            checkEnemyM16()
+            printEnemyBulltes()
+            checkEnemyBulletsPj()
             enemies.forEach(enemy => enemy.dibujar(pj.x + pj.middleX, pj.y + pj.middleY, true))
             printPj()
         }
@@ -677,7 +689,7 @@
                         mill = millis()
                         pj.shoot(millis())
                         bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngle() ))
-                        shotM16.play()
+                        shotPistol.play()
                         shotsFired += 1
                     }
                 } else if (selectedGun === 2) {
@@ -687,7 +699,7 @@
                         for (let i = 0; i < 6; i++) {
                             bullets.push(b = new bullet(pj.x + 25 ,pj.y + 8, calculateAngleShotgun() ))
                         }
-                        shotM16.play()
+                        shotgunShot.play()
                         shotsFired += 1
                     }
                 }
@@ -776,6 +788,11 @@
             bullets.forEach(bullet => bullet.dibujar())
             bullets.forEach(bullet => bullet.checkCollision())
             bullets = bullets.filter(bullet => bullet.onAir === true)
+        }
+
+        function printEnemyBulltes() {
+            enemyBullets.forEach(bullet => bullet.dibujar())
+            enemyBullets = enemyBullets.filter(bullet => bullet.onAir === true)
         }
 
         function checkEnemyBodies() {
@@ -925,20 +942,26 @@
         }
 
         function spawnRandomEnemy() {
-            let decision = calculateRandomMN(100, 1)
+           
+           let decision = calculateRandomMN(100, 1)
 
             let coord = calculateSpawn() 
-
+            
             if (decision < 40) {
-                enemies.push(new panther(coord[0], coord[1]))
-            } else if (decision >= 40 && decision < 80 ) {
+                enemies.push(new enemyClub(coord[0], coord[1]))
+            } else if (decision >= 40 && decision < 60 ) {
                 enemies.push(new enemyKnife(coord[0], coord[1]))
-            } else if (decision >= 80 && decision < 90) {
+            } else if (decision >= 60 && decision < 70) {
+                enemies.push(new enemyM16(coord[0], coord[1]))
+            } else if (decision >= 70 && decision < 80 ) {
                 enemies.push(new dog(coord[0], coord[1]))
-            } else if (decision >= 90 && decision <= 100 ) {
+            } else if (decision >= 80 && decision < 95) {
                 enemies.push(new enemyFat(coord[0], coord[1]))
+            } else {
+                enemies.push(new panther(coord[0], coord[1]))
             }
             lastSpawn = millis()
+
         }
 
         // functions to determine spawn point in the perimeter equivalent to 
@@ -1019,6 +1042,37 @@
             pop()
         }
 
+
+        function checkEnemyM16() {
+            enemies.forEach(function(enemy) {
+                if (enemy.constructor.name === 'enemyM16') {
+                    if (enemy.isInRange(pj.x, pj.y) && enemy.isAlive && (millis() - enemy.lastBullet) > 500) {
+                        shotM16.play()
+                        enemyBullets.push(new bullet(enemy.x + enemy.middleX, enemy.y + enemy.middleY, atan2((pj.y) - (enemy.y + enemy.middleY), (pj.x) - (enemy.x + enemy.middleX))))
+                        enemy.lastBullet = millis()
+                    }
+                }
+            })
+        }
+
+        function checkEnemyBulletsPj() {
+            enemyBullets.forEach(function(bullet){
+                let hit = false 
+                hit = collideCircleCircle((pj.x + pj.middleX), (pj.y + pj.middleY), pj.middleY * 2, bullet.x, bullet.y, 5)
+                if (hit) {
+                    finalTime = millis() - startTime
+                    pj.die()
+                }
+            })
+        }
+
+        function calculateAngleEnemyPj(x, y) {
+            return atan2(y - (this.y + this.middleY), x - (this.x + this.middleX))
+        }
+
+        function printTime() {
+            writeWideAwake((millis() - startTime) / 1000, 400, 60,  255, 0, 255, 50)
+        }
     </script>
 </body>
-</html>
+</html> 

@@ -4,8 +4,13 @@ class dog {
         this.x = x
         this.y = y
         this.v = 6
-        this.sprites = [loadImage('sprites/enemies/dogs/dog.png'),
-            loadImage('sprites/enemies/dogs/dogDeath01.png'),
+        this.sprites = [loadImage('sprites/enemies/dogs/stage01.png'),
+            loadImage('sprites/enemies/dogs/stage02.png'),
+            loadImage('sprites/enemies/dogs/stage03.png'),
+            loadImage('sprites/enemies/dogs/stage04.png'),
+            loadImage('sprites/enemies/dogs/stage05.png')]
+
+        this.deathArray = [loadImage('sprites/enemies/dogs/dogDeath01.png'),
             loadImage('sprites/enemies/dogs/dogDeath02.png'),
             loadImage('sprites/enemies/dogs/dogDeath03.png')]
         this.vX = 0
@@ -16,13 +21,16 @@ class dog {
         this.spawnMillis = mill
         this.isAlive = true
         this.angle = 0
-        this.deathSprite = this.sprites[this.calculateRandomMN(1,3)]
+        this.deathSprite = this.deathArray[this.calculateRandomMN((this.deathArray.length - 1), 0)]
         this.actualSprite = this.sprites[0]
     }
 
     dibujar(xPJ, yPJ, alivePJ) {
         if (alivePJ) {
             if (this.isAlive) {
+
+                this.checkSprite()
+
                 push()
                 this.ownTranslation()
                 this.angle = this.calculateAngle(xPJ, yPJ)
@@ -77,6 +85,22 @@ class dog {
 
     calculateRandomMN(m, n) {
         return Math.round(Math.random()*(m-n)+n)
+    }
+
+    checkSprite() {
+        let mod = (millis() % 1000)
+
+        if (mod < 200) {
+            this.actualSprite = this.sprites[0]
+        } else if (mod < 400) {
+            this.actualSprite = this.sprites[1]
+        } else if (mod < 600) {
+            this.actualSprite = this.sprites[2]
+        } else if (mod < 800) {
+            this.actualSprite = this.sprites[3]
+        } else {
+            this.actualSprite = this.sprites[4]
+        }
     }
 
 }

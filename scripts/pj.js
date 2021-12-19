@@ -122,7 +122,7 @@ class Pj{
         } else {
             push()
             rotate(PI)
-            image(this.sprites[2], -8, -10)
+            image(this.sprites[6], -8, -10)
             pop()
         }
     } 

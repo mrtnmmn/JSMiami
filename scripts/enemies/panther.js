@@ -10,9 +10,11 @@ class panther {
             loadImage('sprites/enemies/panther/stage3.png'),
             loadImage('sprites/enemies/panther/stage4.png'),
             loadImage('sprites/enemies/panther/stage5.png'),]
+
         this.deathArray = [loadImage('sprites/enemies/panther/dead/death01.png'),
             loadImage('sprites/enemies/panther/dead/death02.png'),
             loadImage('sprites/enemies/panther/dead/death03.png')]
+
         this.vX = 0
         this.vY = 0
         this.middleX = 13
@@ -41,14 +43,14 @@ class panther {
             } else {
                 push() 
                 this.ownTranslation()
-                rotate(this.angle)
+                rotate(this.angle - (PI / 2))
                 image(this.actualSprite, -this.middleX, -this.middleY)
                 pop()
             }
         } else {
             push() 
             this.ownTranslation()
-            rotate(this.angle)
+            rotate(this.angle - (PI / 2))
             image(this.actualSprite, -this.middleX, -this.middleY)
             pop()
         }

@@ -32,7 +32,7 @@
         let mill = 0
 
         // menu
-        let opciones = ["Normal", "Nightmare", "Select Weapon", "Select Mask"]
+        let opciones = ["Normal", "ECLIPSE", "Select Weapon", "Select Mask"]
         let masksNames = ["Richard", "Peter", "Rick", "Brandon"]  
         let masksInfo = ["Pro guy", "More bullets", "Faster reload", "Does speed"]
         let maskImages = []
@@ -78,6 +78,8 @@
 
         let startNightmareTransition = 0
 
+        let sacrifice
+
         function preload() {
             mainTheme = loadSound('sounds/soundtrack/horseStepping.mp3')
             normalTheme = loadSound('sounds/soundtrack/hydrogen.mp3')
@@ -112,6 +114,7 @@
             gunImages.push(pistolBig)
             gunImages.push(shotGunBig)
 
+            sacrifice = loadImage('sprites/sacrificeBrand.png')
 
         }
 
@@ -515,6 +518,7 @@
                     combatRoutine()
                     drawNightmare()
                     printCross()
+
                 } else {
                     enemyBullets = []
                     myBrother.stop()
@@ -533,9 +537,12 @@
 
             checkSpawn(40)
             background(150)
+            push()
+            imageMode(CENTER)
+            image(sacrifice, 400, 400)
+            pop()
             printKills()
             printBullets()
-            printTime()
             checkBulletEnemyCollision()
             checkEnemyPjColision()
             checkEnemyBodies()
@@ -595,6 +602,7 @@
             push()
             fill(255,255,255)
             printKills()
+            printTime()
             pop()
 
         }

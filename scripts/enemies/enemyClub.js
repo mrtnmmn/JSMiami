@@ -1,17 +1,10 @@
-class enemyM16 {
+class enemyClub{ 
 
-    constructor(x, y) {
-        this.v = 4 
-        this.x = x
-        this.y = y
-        this.vX = 0
-        this.vY = 0
-        this.isAlive = true 
-        this.angle = 0 
-        this.inRange = false
-        this.middleX = 15
-        this.middleY = 15 
-
+    constructor(x, y, mill) {
+        this.v = 4
+        this.x = x 
+        this.y = y 
+        this.img = loadImage('sprites/enemies/enemyClub/enemyClub.png')
         this.deathArray = [loadImage('sprites/enemies/normalEnemiesDeath/death01.png'),
         loadImage('sprites/enemies/normalEnemiesDeath/death02.png'),
         loadImage('sprites/enemies/normalEnemiesDeath/death03.png'),
@@ -36,36 +29,27 @@ class enemyM16 {
         loadImage('sprites/enemies/normalEnemiesDeath/death22.png'),
         loadImage('sprites/enemies/normalEnemiesDeath/death23.png')]
         this.deathSprite = this.deathArray[this.calculateRandomMN((this.deathArray.length-1), 0)]
-
-        this.img
-        this.deathSprite 
-        this.actualSprite = loadImage('sprites/enemies/enemyM16/sprAssassinUzi.png')
+        this.vX = 0
+        this.vY = 0
+        this.middleX = 7
+        this.middleY = 7
+        this.isSpawned = false
+        this.spawnMillis = mill
+        this.isAlive = true
+        this.angle = 0
+        this.actualSprite = this.img
     }
 
     dibujar(xPJ, yPJ, alivePJ) {
         if (alivePJ) {
             if (this.isAlive) {
-
-                this.inRange = this.isInRange(xPJ, yPJ)
-
-                if (this.inRange) {
-                    push()
-                    this.ownTranslation()
-                    this.angle = this.calculateAngle(xPJ, yPJ)
-                    rotate(this.angle)
-                    image(this.actualSprite , -this.middleX, -this.middleY)
-                    pop()
-                } else {
-                    push()
-                    this.ownTranslation()
-                    this.angle = this.calculateAngle(xPJ, yPJ)
-                    rotate(this.angle)
-                    image(this.actualSprite , -this.middleX, -this.middleY)
-                    this.updatePosition(this.angle)
-                    pop()
-                }
-                
-
+                push()
+                this.ownTranslation()
+                this.angle = this.calculateAngle(xPJ, yPJ)
+                rotate(this.angle)
+                image(this.actualSprite , -this.middleX, -this.middleY)
+                this.updatePosition(this.angle)
+                pop()
             } else {
                 push() 
                 this.ownTranslation()
@@ -89,16 +73,6 @@ class enemyM16 {
                 pop()
             }
         }
-    }
-
-    isInRange(Pjx, Pjy) {
-        let inRange = false
-        
-        if (this.x > 50 && this.x < 750 && this.y > 50 && this.y < 750) {
-            inRange = collideCircleCircle(this.x, this.y, 30, Pjx, Pjy, 550)
-        }
-
-        return inRange
     }
 
     caculateVX(angle) {
@@ -130,8 +104,8 @@ class enemyM16 {
         return atan2(y - (this.y + this.middleY), x - (this.x + this.middleX))
     }
 
-    disparar() {
-
+    calculateRandomMN(m, n) {
+        return Math.round(Math.random()*(m-n)+n)
     }
 
 }

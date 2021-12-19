@@ -111,8 +111,6 @@ class Pj{
 
     dibujar(){ 
 
-        console.log(this.ammo)
-
         if (this.isAlive) {
             if (millis() - this.lastShot < 50 && this.ammo != 0) {
                 image(this.currentSpriteShot, -8, -10)

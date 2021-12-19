@@ -1,39 +1,21 @@
-class enemyKnife{ 
+class enemyFat{ 
 
     constructor(x, y, mill) {
-        this.v = 5
+        this.v = 4
         this.x = x 
         this.y = y 
-        this.img = loadImage('sprites/enemies/enemyKnife/enemyKnife.png')
-        this.deathArray = [loadImage('sprites/enemies/normalEnemiesDeath/death01.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death02.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death03.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death04.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death05.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death06.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death07.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death08.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death09.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death10.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death11.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death12.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death13.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death14.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death15.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death16.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death17.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death18.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death19.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death20.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death21.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death22.png'),
-            loadImage('sprites/enemies/normalEnemiesDeath/death23.png')]
+        this.img = loadImage('sprites/enemies/enemyFat/enemyFat.png')
+        this.deathArray =[loadImage('sprites/enemies/enemyFat/enemyFatDead/deathFat01.png'),
+            loadImage('sprites/enemies/enemyFat/enemyFatDead/deathFat02.png'),
+            loadImage('sprites/enemies/enemyFat/enemyFatDead/deathFat03.png'),
+            loadImage('sprites/enemies/enemyFat/enemyFatDead/deathFat04.png')] 
         this.vX = 0
         this.vY = 0
         this.middleX = 7
-        this.middleY = 11
+        this.middleY = 7
         this.isSpawned = false
         this.spawnMillis = mill
+        this.tank = true 
         this.isAlive = true
         this.angle = 0
         this.deathSprite = this.deathArray[this.calculateRandomMN((this.deathArray.length-1), 0)]
@@ -91,9 +73,14 @@ class enemyKnife{
     }
 
     die(x, y) {
-        this.isAlive = false
-        this.angle = this.calculateAngle(x, y)
-        this.actualSprite = this.deathSprite
+
+        if (this.tank) {
+            this.tank = false 
+        } else {
+            this.isAlive = false
+            this.angle = this.calculateAngle(x, y)
+            this.actualSprite = this.deathSprite
+        }
     }
 
     ownTranslation() {
